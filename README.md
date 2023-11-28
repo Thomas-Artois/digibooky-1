@@ -1,7 +1,5 @@
 # Digibooky
 
-![Digibooky logo](digibooky.png)
-
 Digibooky is going to revolutionize the classic libraries. Users will come to the VR offices where VR headsets are available.
 Using these VR headsets, users can roam Digibooky's digital library, where they can make their preferred selection of books to borrow.
 
@@ -11,6 +9,11 @@ It'll be developed in a later stage by a company specialized in VR applications.
 The front-end of Digibooky will communicate with the back-end of Digibooky through a REST(ful) Web API over HTTP(S),
 using JSON as its message format. This back-end will contain the entire domain and all the business logic.
 It's your job to implement this back-end.
+
+## Important Links
+
+- Trello: https://trello.com/w/digibooky6
+- Miro: https://miro.com/app/board/uXjVNJzHF1o=/
 
 ## Technical requirements for JAVA
 
@@ -29,22 +32,6 @@ It's your job to implement this back-end.
     - (You could also try to store it in files, but that's not recommended)
 - (This only applies when ORM/JPA has been taught): use JPA (Hibernate / EclipseLink) in combination with PostgreSQL or Oracle to store and access the data in a persistent way
     - Correctly set up and handle the transactions.
-
-## Technical requirements for .NET
-
-- Create a new GitHub repository (one per team)
-- Provide a REST(ful) Web API (with JSON as the message / body format)
-- Use ASP.NET Core Web API
-- Use AzureDevops for continuous integration
-    - We'll help you with this
-- Perform logging (use logging provided by .NET Core)
-    - Certainly log all interactions with the application that can be defined as "errors"
-        - E.g., unauthorized access, illegal arguments, exceptions in general,...
-- Include OpenAPI using Swagger(UI) to provide a readable documentation/manual of your REST(ful) Web API
-- Use Lists or HashMaps to store your data (fake in-memory database).
-    - Store them in a specific class / classes (e.g. `AuthorTable` or `DigibookyDatabase`)
-    - (You can also try to store it in files, but that's not recommended)
-- (This only applies when ORM has been taught): Use Entity Framework instead of in-memory Lists,...
 
 ## Architectural Setup
 
