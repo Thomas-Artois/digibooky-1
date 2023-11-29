@@ -17,6 +17,10 @@ public class BookDto {
         this.summary = summary;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getIsbnNumber() {
         return isbnNumber;
     }

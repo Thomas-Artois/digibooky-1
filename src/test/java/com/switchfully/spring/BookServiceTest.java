@@ -7,6 +7,7 @@ import com.switchfully.digibooky.repository.BookRepository;
 import com.switchfully.digibooky.service.BookService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -26,7 +27,6 @@ public class BookServiceTest {
     void setUpBookService() {
         bookRepositoryMock = Mockito.mock(BookRepository.class);
         bookMapper = new BookMapper();
-
         bookService = new BookService(bookMapper, bookRepositoryMock);
     }
 
@@ -40,10 +40,25 @@ public class BookServiceTest {
                 ));
 
         // when
-        List<BookDto> actual = bookService.findAllBooks();
+        bookService.findAllBooks();
 
         // then
         Mockito.verify(bookRepositoryMock).findAllBooks();
+
+    }
+
+    @Test
+    void whenFindOneBook_thenReturnBook(){
+        //given
+        Book newBook = new Book("54531313", "Book Title", "Book Author", "Book Summary");
+        Mockito.when(bookRepositoryMock.findSingleBookById(newBook.getId())).thenReturn(newBook);
+
+        //when
+        BookDto actual = bookService.findSingleBookById(newBook.getId());
+
+
+        //then
+        assertThat(actual.getId()).isEqualTo(newBook.getId());
 
     }
 }
