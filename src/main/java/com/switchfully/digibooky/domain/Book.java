@@ -21,6 +21,10 @@ public class Book {
         this.summary = summary;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     public String getIsbnNumber() {
         return isbnNumber;
     }
