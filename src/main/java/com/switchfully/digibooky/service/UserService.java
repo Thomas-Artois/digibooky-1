@@ -1,5 +1,6 @@
 package com.switchfully.digibooky.service;
 
+import com.switchfully.digibooky.domain.Role;
 import com.switchfully.digibooky.domain.User;
 import com.switchfully.digibooky.dto.CreateUserDto;
 import com.switchfully.digibooky.dto.UserDto;
@@ -22,7 +23,18 @@ public class UserService {
             throw new IllegalArgumentException();
         }
 
-        User user = userRepository.create(userMapper.mapCreateUserDtoToUser(createUserDto));
+        User user = userRepository.create(userMapper.mapCreateUserDtoToUser(createUserDto, Role.MEMBER));
+        UserDto userDto = userMapper.mapUserToUserDto(user);
+
+        return userDto;
+    }
+
+    public UserDto createLibrarian(CreateUserDto createUserDto) {
+        if (userRepository.checkIfEmailExists(createUserDto.getEmail())) {
+            throw new IllegalArgumentException();
+        }
+
+        User user = userRepository.create(userMapper.mapCreateUserDtoToUser(createUserDto, Role.LIBRARIAN));
         UserDto userDto = userMapper.mapUserToUserDto(user);
 
         return userDto;

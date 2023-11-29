@@ -10,17 +10,21 @@ public class User {
     private String lastName;
     private String email;
     private Address address;
+    private Role role;
+    private String password;
 
-    public User(String firstName, String lastName, String email, Address address) {
-        this(UUID.randomUUID().toString(), firstName, lastName, email, address);
+    public User(String firstName, String lastName, String email, Address address, Role role, String password) {
+        this(UUID.randomUUID().toString(), firstName, lastName, email, address, role, password);
     }
 
-    private User(String id, String firstName, String lastName, String email, Address address) {
+    private User(String id, String firstName, String lastName, String email, Address address, Role role, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.address = address;
+        this.role = role;
+        this.password = password;
     }
 
     public String getId() {

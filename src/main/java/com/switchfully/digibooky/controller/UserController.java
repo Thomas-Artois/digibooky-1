@@ -23,4 +23,14 @@ public class UserController {
     public UserDto createUser(@Valid @RequestBody CreateUserDto createUserDto) {
         return userService.createUser(createUserDto);
     }
+
+    @PostMapping(path = "/librarian", consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDto createLibrarian(@RequestHeader String email, @RequestHeader String password, @Valid @RequestBody CreateUserDto createUserDto) {
+        if (!email.equals("admin") || !password.equals("admin")) {
+            throw new IllegalArgumentException();
+        }
+
+        return userService.createLibrarian(createUserDto);
+    }
 }

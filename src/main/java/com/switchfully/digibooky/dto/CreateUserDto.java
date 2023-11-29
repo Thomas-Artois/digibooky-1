@@ -17,12 +17,15 @@ public class CreateUserDto {
     private String email;
     @Valid
     private Address address;
+    @NotEmpty
+    private String password;
 
-    public CreateUserDto(String firstName, String lastName, String email, Address address) {
+    public CreateUserDto(String firstName, String lastName, String email, Address address, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.address = address;
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -63,5 +66,13 @@ public class CreateUserDto {
         this.address = address;
 
         return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
