@@ -17,6 +17,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class BookServiceTest {
     BookService bookService;
@@ -38,12 +40,22 @@ public class BookServiceTest {
                         new Book("54531313", "Book Title", "Book Author", "Book Summary"),
                         new Book("46546", "Book Title 2", "Book Author 2", "Book Summary 2")
                 ));
+        Mockito.when(bookRepositoryMock.findAllBooks()).thenReturn(bookList);
 
         // when
-        bookService.findAllBooks();
+        List<BookDto> actual = bookService.findAllBooks();
 
         // then
         Mockito.verify(bookRepositoryMock).findAllBooks();
+
+        assertNotNull(actual);
+        assertEquals(2, actual.size()); // Adjust the size based on the number of expected books
+        assertEquals("Book Title", actual.get(0).getTitle());
+        assertEquals("Book Author", actual.get(0).getAuthor());
+        assertEquals("Book Summary", actual.get(0).getSummary());
+        assertEquals("Book Title 2", actual.get(1).getTitle());
+        assertEquals("Book Author 2", actual.get(1).getAuthor());
+        assertEquals("Book Summary 2", actual.get(1).getSummary());
 
     }
 
