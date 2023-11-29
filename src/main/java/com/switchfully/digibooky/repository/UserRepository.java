@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class UserRepository {
@@ -14,5 +15,9 @@ public class UserRepository {
         users.put(user.getId().toString(), user);
 
         return user;
+    }
+
+    public boolean checkIfEmailExists(String email) {
+        return users.entrySet().stream().anyMatch(stringUserEntry -> stringUserEntry.getValue().getEmail().equals(email));
     }
 }

@@ -18,8 +18,13 @@ public class UserService {
     }
 
     public UserDto createUser(CreateUserDto createUserDto) {
-        User user = userRepository.create(userMapper.mapCreateUserDtoToUser(createUserDto));
+        if (userRepository.checkIfEmailExists(createUserDto.getEmail())) {
+            throw new IllegalArgumentException();
+        }
 
-        return userMapper.mapUserToUserDto(user);
+        User user = userRepository.create(userMapper.mapCreateUserDtoToUser(createUserDto));
+        UserDto userDto = userMapper.mapUserToUserDto(user);
+
+        return userDto;
     }
 }

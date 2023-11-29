@@ -1,5 +1,7 @@
 package com.switchfully.digibooky.domain;
 
+import jakarta.validation.constraints.Email;
+
 import java.util.UUID;
 
 public class User {
