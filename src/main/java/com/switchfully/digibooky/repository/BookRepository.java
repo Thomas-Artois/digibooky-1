@@ -19,4 +19,10 @@ public class BookRepository {
     public Book findSingleBookById(String id) {
         return books.get(id);
     }
+
+    public Book findSingleBookByIsbn(String isbnNumber) {
+        return books.values().stream()
+                .filter(book -> isbnNumber.equals(book.getIsbnNumber()))
+                .findFirst().orElseThrow(()->new IllegalArgumentException("ISBN not found"));
+    }
 }

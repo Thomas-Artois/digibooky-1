@@ -28,4 +28,7 @@ public class BookService {
         return bookMapper.mapBookToBookDto(bookRepository.findSingleBookById(id));
     }
 
+    public BookDto findSingleBookByIsbn(String isbnNumber){
+        return bookMapper.mapBookToBookDto(bookRepository.findSingleBookByIsbn(isbnNumber));
+    }
 }
