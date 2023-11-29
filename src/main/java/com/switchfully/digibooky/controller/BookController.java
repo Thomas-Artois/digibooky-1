@@ -3,10 +3,7 @@ package com.switchfully.digibooky.controller;
 import com.switchfully.digibooky.domain.Book;
 import com.switchfully.digibooky.dto.BookDto;
 import com.switchfully.digibooky.service.BookService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +25,10 @@ public class BookController {
     @GetMapping("/{id}")
     public BookDto getSingleBookById(@PathVariable String id) {
         return bookService.findSingleBookById(id);
+    }
+
+    @GetMapping("/isbn/{isbnNumber}")
+    public BookDto getSingleBookByIsbn(@PathVariable String isbnNumber){
+        return bookService.findSingleBookByIsbn((isbnNumber));
     }
 }
