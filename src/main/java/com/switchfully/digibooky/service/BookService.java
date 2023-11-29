@@ -20,12 +20,12 @@ public class BookService {
     }
     public List<BookDto> findAllBooks(){
         return bookRepository.findAllBooks().stream()
-                .map(book -> bookMapper.bookToDto(book))
+                .map(book -> bookMapper.mapBookToBookDto(book))
                 .collect(Collectors.toList());
     }
 
     public BookDto findSingleBookById(String id) {
-        return bookMapper.bookToDto(bookRepository.findSingleBookById(id));
+        return bookMapper.mapBookToBookDto(bookRepository.findSingleBookById(id));
     }
 
 }
