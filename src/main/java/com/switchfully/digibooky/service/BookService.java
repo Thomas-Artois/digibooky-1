@@ -24,4 +24,8 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
+    public BookDto findSingleBookById(String id) {
+        return bookMapper.bookToDto(bookRepository.findSingleBookById(id));
+    }
+
 }
