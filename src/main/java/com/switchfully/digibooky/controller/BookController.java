@@ -28,7 +28,7 @@ public class BookController {
     }
 
     @GetMapping("/isbn/{isbnNumber}")
-    public BookDto getSingleBookByIsbn(@PathVariable String isbnNumber){
-        return bookService.findSingleBookByIsbn((isbnNumber));
+    public List <BookDto> getBooksByIsbn(@PathVariable String isbnNumber){
+        return bookService.findBooksByIsbn(isbnNumber);
     }
 }

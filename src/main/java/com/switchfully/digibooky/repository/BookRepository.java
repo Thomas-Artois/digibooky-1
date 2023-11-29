@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class BookRepository {
@@ -20,9 +21,9 @@ public class BookRepository {
         return books.get(id);
     }
 
-    public Book findSingleBookByIsbn(String isbnNumber) {
+    public List<Book> findBooksByIsbn(String isbnNumber) {
         return books.values().stream()
                 .filter(book -> isbnNumber.equals(book.getIsbnNumber()))
-                .findFirst().orElseThrow(()->new IllegalArgumentException("ISBN not found"));
+                .collect(Collectors.toList());
     }
 }
