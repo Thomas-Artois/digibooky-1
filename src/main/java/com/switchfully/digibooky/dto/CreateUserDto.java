@@ -1,13 +1,21 @@
 package com.switchfully.digibooky.dto;
 
 import com.switchfully.digibooky.domain.Address;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.UUID;
 
 public class CreateUserDto {
+    @NotEmpty
     private String firstName;
+    @NotEmpty
     private String lastName;
+    @NotEmpty
+    @Email
     private String email;
+    @Valid
     private Address address;
 
     public CreateUserDto(String firstName, String lastName, String email, Address address) {
