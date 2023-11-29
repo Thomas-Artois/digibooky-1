@@ -3,17 +3,17 @@ package com.switchfully.digibooky.domain;
 import java.util.UUID;
 
 public class Book {
-    private UUID id;
+    private String id;
     private String isbnNumber;
     private String title;
     private String author;
     private String summary;
 
     public Book(String isbnNumber, String title, String author, String summary) {
-        this(UUID.randomUUID(), isbnNumber, title, author, summary);
+        this(UUID.randomUUID().toString(), isbnNumber, title, author, summary);
     }
 
-    private Book(UUID id, String isbnNumber, String title, String author, String summary) {
+    private Book(String id, String isbnNumber, String title, String author, String summary) {
         this.id = id;
         this.isbnNumber = isbnNumber;
         this.title = title;
@@ -21,7 +21,7 @@ public class Book {
         this.summary = summary;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 

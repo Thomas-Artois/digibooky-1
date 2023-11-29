@@ -15,4 +15,8 @@ public class BookRepository {
     public Collection<Book> findAllBooks(){
         return books.values();
     };
+
+    public Book findSingleBookById(String id) {
+        return books.get(id);
+    }
 }
