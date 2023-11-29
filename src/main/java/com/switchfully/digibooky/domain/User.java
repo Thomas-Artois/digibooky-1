@@ -21,6 +21,10 @@ public class User {
         this.address = address;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     public String getFirstName() {
         return firstName;
     }
