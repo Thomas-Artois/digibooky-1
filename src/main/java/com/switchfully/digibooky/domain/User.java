@@ -1,5 +1,7 @@
 package com.switchfully.digibooky.domain;
 
+import jakarta.validation.constraints.Email;
+
 import java.util.UUID;
 
 public class User {
@@ -19,6 +21,10 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.address = address;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public String getFirstName() {
