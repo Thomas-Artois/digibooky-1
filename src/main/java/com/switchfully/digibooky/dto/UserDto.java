@@ -1,6 +1,7 @@
 package com.switchfully.digibooky.dto;
 
 import com.switchfully.digibooky.domain.Address;
+import com.switchfully.digibooky.domain.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -13,13 +14,15 @@ public class UserDto {
     private String lastName;
     private String email;
     private Address address;
+    private Role role;
 
-    public UserDto(String id, String firstName, String lastName, String email, Address address) {
+    public UserDto(String id, String firstName, String lastName, String email, Address address, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.address = address;
+        this.role = role;
     }
 
     public String getFirstName() {
@@ -60,5 +63,13 @@ public class UserDto {
         this.address = address;
 
         return this;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

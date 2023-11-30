@@ -20,16 +20,22 @@ public class UserController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDto createUser(@Valid @RequestBody CreateUserDto createUserDto) {
-        return userService.createUser(createUserDto);
+    public UserDto createMember(@Valid @RequestBody CreateUserDto createUserDto) {
+        return userService.createMember(createUserDto);
+    }
+
+    @PostMapping(path = "/admin", consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDto createAdmin(@RequestHeader String email, @RequestHeader String password, @Valid @RequestBody CreateUserDto createUserDto) {
+        userService.checkIfUserIsAdmin(email, password);
+
+        return userService.createAdmin(createUserDto);
     }
 
     @PostMapping(path = "/librarian", consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createLibrarian(@RequestHeader String email, @RequestHeader String password, @Valid @RequestBody CreateUserDto createUserDto) {
-        if (!email.equals("admin") || !password.equals("admin")) {
-            throw new IllegalArgumentException();
-        }
+        userService.checkIfUserIsAdmin(email, password);
 
         return userService.createLibrarian(createUserDto);
     }
