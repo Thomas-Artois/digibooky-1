@@ -2,8 +2,11 @@ package com.switchfully.digibooky.controller;
 
 import com.switchfully.digibooky.domain.Book;
 import com.switchfully.digibooky.dto.BookDto;
+import com.switchfully.digibooky.exception.BookNotFoundException;
 import com.switchfully.digibooky.service.BookService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -24,7 +27,11 @@ public class BookController {
 
     @GetMapping("/{id}")
     public BookDto getSingleBookById(@PathVariable String id) {
-        return bookService.findSingleBookById(id);
+        try{
+            return bookService.findSingleBookById(id);
+        } catch (BookNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
     }
 
     @GetMapping("/isbn/{isbnNumber}")

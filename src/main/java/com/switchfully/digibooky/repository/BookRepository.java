@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class BookRepository {
-    private Map<String, Book> books = new HashMap<>();
+    private final Map<String, Book> books = new HashMap<>();
 
     public Collection<Book> findAllBooks() {
         return books.values();
@@ -34,5 +34,9 @@ public class BookRepository {
         return books.values().stream()
                 .filter(book -> book.getTitle().contains(author))
                 .collect(Collectors.toList());
+    }
+
+    public boolean isBookIdPresent(String id) {
+        return books.containsKey(id);
     }
 }
