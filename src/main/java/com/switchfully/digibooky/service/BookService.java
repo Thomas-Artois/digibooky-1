@@ -42,4 +42,9 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
+    public List<BookDto> findBooksByAuthor(String author){
+        return  bookRepository.findBooksByAuthor(author).stream()
+                .map((book-> bookMapper.mapBookToBookDto(book)))
+                .collect(Collectors.toList());
+    }
 }

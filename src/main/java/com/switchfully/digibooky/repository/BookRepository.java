@@ -29,4 +29,10 @@ public class BookRepository {
                 .filter(book -> book.getTitle().contains(title))
                 .collect(Collectors.toList());
     }
+
+    public List<Book> findBooksByAuthor(String author) {
+        return books.values().stream()
+                .filter(book -> book.getTitle().contains(author))
+                .collect(Collectors.toList());
+    }
 }
