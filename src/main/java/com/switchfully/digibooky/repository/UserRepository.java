@@ -19,13 +19,13 @@ public class UserRepository {
     public UserRepository() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         Address address = new Address("streetName", "streetNumber", "postalCode", "city");
-        User adminUser = new User("ADMINADM", "admin", "admin", "admin@digibooky.com", address, Role.ADMIN, bCryptPasswordEncoder.encode("admin"));
+        User adminUser = new User("AAAAAAAA", "admin", "admin", "admin@digibooky.com", address, Role.ADMIN, bCryptPasswordEncoder.encode("admin"));
         create(adminUser);
 
         List<User> listOfUsers = List.of(
-                new User("12345678", "One", "OneLast", "one@digibooky.com", new Address("Stockholm"), Role.MEMBER, "passwordOne"),
-                new User("beepboop", "Two", "TwoLast", "two@digibooky.com", new Address("Stockholm"), Role.MEMBER, "passwordTwo"),
-                new User("12345679", "Three", "ThreeLast", "three@digibooky.com", new Address("Stockholm"), Role.MEMBER, "passwordThree")
+                new User("11111111", "One", "OneLast", "one@digibooky.com", new Address("Stockholm"), Role.MEMBER, "passwordOne"),
+                new User("22222222", "Two", "TwoLast", "two@digibooky.com", new Address("Stockholm"), Role.MEMBER, "passwordTwo"),
+                new User("33333333", "Three", "ThreeLast", "three@digibooky.com", new Address("Stockholm"), Role.MEMBER, "passwordThree")
         );
 
         listOfUsers.forEach(this::create);
