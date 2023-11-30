@@ -2,6 +2,7 @@ package com.switchfully.digibooky.service;
 
 import com.switchfully.digibooky.domain.Book;
 import com.switchfully.digibooky.dto.BookDto;
+import com.switchfully.digibooky.exception.BookNotFoundException;
 import com.switchfully.digibooky.mapper.BookMapper;
 import com.switchfully.digibooky.repository.BookRepository;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,11 @@ public class BookService {
     }
 
     public BookDto findSingleBookById(String id) {
+        if(bookRepository.checkIfBookExists(id)){
+            throw new BookNotFoundException("Book Not Found");
+        }
         return bookMapper.mapBookToBookDto(bookRepository.findSingleBookById(id));
+
     }
 
     public List<BookDto> findBooksByIsbn(String isbnNumber) {

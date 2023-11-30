@@ -1,6 +1,7 @@
 package com.switchfully.digibooky.repository;
 
 import com.switchfully.digibooky.domain.Book;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -34,5 +35,9 @@ public class BookRepository {
         return books.values().stream()
                 .filter(book -> book.getTitle().contains(author))
                 .collect(Collectors.toList());
+    }
+
+    public boolean checkIfBookExists(String id) {
+        return books.get(id) != null;
     }
 }
