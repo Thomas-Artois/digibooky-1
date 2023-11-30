@@ -1,18 +1,29 @@
 package com.switchfully.digibooky.dto;
 
 import com.switchfully.digibooky.domain.Address;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 
 public class UpdateUserDto {
+    @NotEmpty
     private String firstName;
+    @NotEmpty
     private String lastName;
+    @NotEmpty
+    @Email
     private String email;
+    @Valid
     private Address address;
+    @NotEmpty
+    private String password;
 
-    public UpdateUserDto(String firstName, String lastName, String email, Address address) {
+    public UpdateUserDto(String firstName, String lastName, String email, Address address, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.address = address;
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -53,5 +64,13 @@ public class UpdateUserDto {
         this.address = address;
 
         return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
