@@ -17,7 +17,7 @@ public class UserRepository {
     public UserRepository() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         Address address = new Address("streetName", "streetNumber", "postalCode", "city");
-        User adminUser = new User("admin", "admin", "admin@digibooky.com", address, Role.ADMIN, bCryptPasswordEncoder.encode("admin"));
+        User adminUser = new User("ABCDEFGH", "admin", "admin", "admin@digibooky.com", address, Role.ADMIN, bCryptPasswordEncoder.encode("admin"));
 
         create(adminUser);
     }

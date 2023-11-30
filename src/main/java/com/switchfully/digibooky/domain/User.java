@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public class User {
     private String id;
+    private String socialSecurityNumber;
     private String firstName;
     private String lastName;
     private String email;
@@ -13,12 +14,13 @@ public class User {
     private Role role;
     private String password;
 
-    public User(String firstName, String lastName, String email, Address address, Role role, String password) {
-        this(UUID.randomUUID().toString(), firstName, lastName, email, address, role, password);
+    public User(String socialSecurityNumber, String firstName, String lastName, String email, Address address, Role role, String password) {
+        this(UUID.randomUUID().toString(), socialSecurityNumber, firstName, lastName, email, address, role, password);
     }
 
-    private User(String id, String firstName, String lastName, String email, Address address, Role role, String password) {
+    private User(String id, String socialSecurityNumber, String firstName, String lastName, String email, Address address, Role role, String password) {
         this.id = id;
+        this.socialSecurityNumber = socialSecurityNumber;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -27,17 +29,8 @@ public class User {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", address=" + address +
-                ", role=" + role +
-                ", password='" + password + '\'' +
-                '}';
+    public String getSocialSecurityNumber() {
+        return socialSecurityNumber;
     }
 
     public String getId() {

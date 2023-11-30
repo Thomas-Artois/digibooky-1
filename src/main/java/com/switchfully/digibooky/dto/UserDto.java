@@ -8,21 +8,30 @@ import jakarta.validation.constraints.NotEmpty;
 import java.util.UUID;
 
 public class UserDto {
-
     private String id;
+    private String socialSecurityNumber;
     private String firstName;
     private String lastName;
     private String email;
     private Address address;
     private Role role;
 
-    public UserDto(String id, String firstName, String lastName, String email, Address address, Role role) {
+    public UserDto(String id, String socialSecurityNumber, String firstName, String lastName, String email, Address address, Role role) {
         this.id = id;
+        this.socialSecurityNumber = socialSecurityNumber;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.address = address;
         this.role = role;
+    }
+
+    public String getSocialSecurityNumber() {
+        return socialSecurityNumber;
+    }
+
+    public void setSocialSecurityNumber(String socialSecurityNumber) {
+        this.socialSecurityNumber = socialSecurityNumber;
     }
 
     public String getFirstName() {
