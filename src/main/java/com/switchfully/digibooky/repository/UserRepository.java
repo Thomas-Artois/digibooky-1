@@ -3,6 +3,9 @@ package com.switchfully.digibooky.repository;
 import com.switchfully.digibooky.domain.Address;
 import com.switchfully.digibooky.domain.Role;
 import com.switchfully.digibooky.domain.User;
+import com.switchfully.digibooky.exception.EmailExistsException;
+import com.switchfully.digibooky.exception.SocialSecurityNumberExistsException;
+import com.switchfully.digibooky.exception.UserNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -19,28 +22,40 @@ public class UserRepository {
     public UserRepository() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         Address address = new Address("streetName", "streetNumber", "postalCode", "city");
-        User adminUser = new User("ABCDEFGH", "admin", "admin", "admin@digibooky.com", address, Role.ADMIN, bCryptPasswordEncoder.encode("admin"));
-
+        User adminUser = new User("AAAAAAAA", "admin", "admin", "admin@digibooky.com", address, Role.ADMIN, bCryptPasswordEncoder.encode("admin"));
         create(adminUser);
+
+        List<User> listOfUsers = List.of(
+                new User("11111111", "One", "OneLast", "one@digibooky.com", new Address("Stockholm"), Role.MEMBER, "passwordOne"),
+                new User("22222222", "Two", "TwoLast", "two@digibooky.com", new Address("Stockholm"), Role.MEMBER, "passwordTwo"),
+                new User("33333333", "Three", "ThreeLast", "three@digibooky.com", new Address("Stockholm"), Role.MEMBER, "passwordThree")
+        );
+
+        listOfUsers.forEach(this::create);
     }
 
     public User create(User user) {
-        users.put(user.getId().toString(), user);
+        users.put(user.getId(), user);
 
         return user;
     }
 
-    public boolean checkIfEmailExists(String email) {
-        return users.entrySet().stream().anyMatch(stringUserEntry -> stringUserEntry.getValue().getEmail().equals(email));
-    }
-
-    public User getUserByEmail(String email) throws IllegalArgumentException {
-        if (!checkIfEmailExists(email)) {
-            throw new IllegalArgumentException();
+    public void checkIfEmailExists(String email) throws EmailExistsException {
+        if (users.values().stream().anyMatch(user -> user.getEmail().equals(email))) {
+            throw new EmailExistsException();
         }
-
-        return users.entrySet().stream().filter(stringUserEntry -> stringUserEntry.getValue().getEmail().equals(email)).findAny().get().getValue();
     }
+
+    public void checkIfSocialSecurityNumberExists(String socialSecurityNumber) throws SocialSecurityNumberExistsException {
+        if (users.values().stream().anyMatch(user -> user.getSocialSecurityNumber().equals(socialSecurityNumber))) {
+            throw new SocialSecurityNumberExistsException();
+        }
+    }
+
+    public User getUserByEmail(String email) throws UserNotFoundException {
+        return users.values().stream().filter(user -> user.getEmail().equals(email)).findFirst().orElseThrow(UserNotFoundException::new);
+    }
+
 
     public List<User> getAllMembers() {
         return users.values().stream().filter(user -> user.getRole().equals(Role.MEMBER)).collect(Collectors.toList());
