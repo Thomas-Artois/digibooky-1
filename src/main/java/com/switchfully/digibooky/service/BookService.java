@@ -1,5 +1,6 @@
 package com.switchfully.digibooky.service;
 
+import com.switchfully.digibooky.domain.Book;
 import com.switchfully.digibooky.dto.BookDto;
 import com.switchfully.digibooky.exception.BookNotFoundException;
 import com.switchfully.digibooky.mapper.BookMapper;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class BookService {
@@ -34,21 +36,32 @@ public class BookService {
 
     }
 
-    public List<BookDto> findBooksByIsbn(String isbnNumber) {
-        return bookRepository.findBooksByIsbn(isbnNumber).stream()
+    public List<BookDto> searchBooks(String isbnNumber, String title, String author) {
+        Stream<Book> bookList = bookRepository.findAllBooks().stream();
+
+        if (isbnNumber != null) {
+            bookList = findBooksByIsbn(isbnNumber, bookList);
+        }
+
+        return bookList
                 .map(book -> bookMapper.mapBookToBookDto(book))
                 .collect(Collectors.toList());
     }
 
-    public List<BookDto> findBooksByTitle(String title) {
-        return bookRepository.findBooksByTitle(title).stream()
-                .map((book -> bookMapper.mapBookToBookDto(book)))
-                .collect(Collectors.toList());
+    public Stream<Book> findBooksByIsbn(String isbnNumber, Stream<Book> stream) {
+        return stream.filter(
+                book -> book.getIsbnNumber().contains(isbnNumber)
+        );
     }
 
-    public List<BookDto> findBooksByAuthor(String author){
-        return  bookRepository.findBooksByAuthor(author).stream()
-                .map((book-> bookMapper.mapBookToBookDto(book)))
-                .collect(Collectors.toList());
+    public Stream<BookDto> findBooksByTitle(String title) {
+        return bookRepository.findBooksByTitle(title).stream()
+                .map((book -> bookMapper.mapBookToBookDto(book)));
     }
+
+    public Stream<BookDto> findBooksByAuthor(String author){
+        return  bookRepository.findBooksByAuthor(author).stream()
+                .map((book-> bookMapper.mapBookToBookDto(book)));
+    }
+
 }
