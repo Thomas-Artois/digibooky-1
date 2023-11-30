@@ -42,10 +42,14 @@ public class BookService {
         if (isbnNumber != null) {
             bookList = findBooksByIsbn(isbnNumber, bookList);
         }
+        if (title != null) {
+            bookList = findBooksByTitle(title, bookList);
 
+        }
         return bookList
                 .map(book -> bookMapper.mapBookToBookDto(book))
                 .collect(Collectors.toList());
+
     }
 
     public Stream<Book> findBooksByIsbn(String isbnNumber, Stream<Book> stream) {
@@ -54,9 +58,10 @@ public class BookService {
         );
     }
 
-    public Stream<BookDto> findBooksByTitle(String title) {
-        return bookRepository.findBooksByTitle(title).stream()
-                .map((book -> bookMapper.mapBookToBookDto(book)));
+    public Stream<Book> findBooksByTitle(String title, Stream<Book> stream) {
+        return stream.filter(
+                book -> book.getTitle().contains(title)
+        );
     }
 
     public Stream<BookDto> findBooksByAuthor(String author){
