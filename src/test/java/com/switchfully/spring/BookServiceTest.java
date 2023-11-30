@@ -35,7 +35,7 @@ public class BookServiceTest {
     @Test
     void whenFindAllBooks_thenReturnBookDtoList() {
         // given
-        List<Book> bookList= new ArrayList<>(
+        List<Book> bookList = new ArrayList<>(
                 List.of(
                         new Book("54531313", "Book Title", "Book Author", "Book Summary"),
                         new Book("46546", "Book Title 2", "Book Author 2", "Book Summary 2")
@@ -49,7 +49,7 @@ public class BookServiceTest {
         Mockito.verify(bookRepositoryMock).findAllBooks();
 
         assertNotNull(actual);
-        assertEquals(2, actual.size()); // Adjust the size based on the number of expected books
+        assertEquals(2, actual.size());
         assertEquals("Book Title", actual.get(0).getTitle());
         assertEquals("Book Author", actual.get(0).getAuthor());
         assertEquals("Book Summary", actual.get(0).getSummary());
@@ -60,7 +60,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void whenFindOneBook_thenReturnBook(){
+    void whenFindOneBook_thenReturnBook() {
         //given
         Book newBook = new Book("54531313", "Book Title", "Book Author", "Book Summary");
         Mockito.when(bookRepositoryMock.findSingleBookById(newBook.getId())).thenReturn(newBook);

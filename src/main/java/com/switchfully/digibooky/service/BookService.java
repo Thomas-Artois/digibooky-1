@@ -1,5 +1,6 @@
 package com.switchfully.digibooky.service;
 
+import com.switchfully.digibooky.domain.Book;
 import com.switchfully.digibooky.dto.BookDto;
 import com.switchfully.digibooky.mapper.BookMapper;
 import com.switchfully.digibooky.repository.BookRepository;
@@ -18,7 +19,8 @@ public class BookService {
         this.bookMapper = bookMapper;
         this.bookRepository = bookRepository;
     }
-    public List<BookDto> findAllBooks(){
+
+    public List<BookDto> findAllBooks() {
         return bookRepository.findAllBooks().stream()
                 .map(book -> bookMapper.mapBookToBookDto(book))
                 .collect(Collectors.toList());
@@ -28,11 +30,21 @@ public class BookService {
         return bookMapper.mapBookToBookDto(bookRepository.findSingleBookById(id));
     }
 
-    public List <BookDto> findBooksByIsbn(String isbnNumber){
+    public List<BookDto> findBooksByIsbn(String isbnNumber) {
         return bookRepository.findBooksByIsbn(isbnNumber).stream()
                 .map(book -> bookMapper.mapBookToBookDto(book))
                 .collect(Collectors.toList());
     }
 
+    public List<BookDto> findBooksByTitle(String title) {
+        return bookRepository.findBooksByTitle(title).stream()
+                .map((book -> bookMapper.mapBookToBookDto(book)))
+                .collect(Collectors.toList());
+    }
 
+    public List<BookDto> findBooksByAuthor(String author){
+        return  bookRepository.findBooksByAuthor(author).stream()
+                .map((book-> bookMapper.mapBookToBookDto(book)))
+                .collect(Collectors.toList());
+    }
 }
