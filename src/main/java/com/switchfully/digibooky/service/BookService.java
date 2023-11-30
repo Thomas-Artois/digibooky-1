@@ -29,7 +29,7 @@ public class BookService {
     }
 
     public BookDto findSingleBookById(String id) {
-        if(!bookRepository.isBookIdPresent(id)){
+        if (!bookRepository.isBookIdPresent(id)) {
             throw new BookNotFoundException("Book Not Found");
         }
         return bookMapper.mapBookToBookDto(bookRepository.findSingleBookById(id));
@@ -44,7 +44,9 @@ public class BookService {
         }
         if (title != null) {
             bookList = findBooksByTitle(title, bookList);
-
+        }
+        if (author != null) {
+            bookList = findBooksByAuthor(author, bookList);
         }
         return bookList
                 .map(book -> bookMapper.mapBookToBookDto(book))
@@ -64,9 +66,9 @@ public class BookService {
         );
     }
 
-    public Stream<BookDto> findBooksByAuthor(String author){
-        return  bookRepository.findBooksByAuthor(author).stream()
-                .map((book-> bookMapper.mapBookToBookDto(book)));
+    public Stream<Book> findBooksByAuthor(String author, Stream<Book> stream) {
+        return stream.filter(
+                book -> book.getAuthor().contains(author)
+        );
     }
-
 }
