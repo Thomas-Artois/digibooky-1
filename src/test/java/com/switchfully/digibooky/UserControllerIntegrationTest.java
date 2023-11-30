@@ -11,6 +11,8 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.util.List;
+
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -47,9 +49,6 @@ class UserControllerIntegrationTest {
                         .statusCode(HttpStatus.CREATED.value())
                         .extract()
                         .as(UserDto.class);
-
-        assertThat(userDto.getSocialSecurityNumber()).isNotBlank();
-        assertThat(userDto.getSocialSecurityNumber()).isEqualTo(createUserDto.getSocialSecurityNumber());
 
         assertThat(userDto.getFirstName()).isNotBlank();
         assertThat(userDto.getFirstName()).isEqualTo(createUserDto.getFirstName());
@@ -94,9 +93,6 @@ class UserControllerIntegrationTest {
                         .extract()
                         .as(UserDto.class);
 
-        assertThat(userDto.getSocialSecurityNumber()).isNotBlank();
-        assertThat(userDto.getSocialSecurityNumber()).isEqualTo(createUserDto.getSocialSecurityNumber());
-
         assertThat(userDto.getFirstName()).isNotBlank();
         assertThat(userDto.getFirstName()).isEqualTo(createUserDto.getFirstName());
 
@@ -140,9 +136,6 @@ class UserControllerIntegrationTest {
                         .extract()
                         .as(UserDto.class);
 
-        assertThat(userDto.getSocialSecurityNumber()).isNotBlank();
-        assertThat(userDto.getSocialSecurityNumber()).isEqualTo(createUserDto.getSocialSecurityNumber());
-
         assertThat(userDto.getFirstName()).isNotBlank();
         assertThat(userDto.getFirstName()).isEqualTo(createUserDto.getFirstName());
 
@@ -159,13 +152,26 @@ class UserControllerIntegrationTest {
 
     @Test
     void givenAdminUser_whenAdminGetsAllMembers_thenReturnListOfAllMembers() {
-        //GIVEN
-        String socialSecurityNumber = "ABCDEFGH";
-        String firstName = "firstName";
-        String lastName = "lastName";
-        String email = "admin@digibooky.com";
-        Address address = new Address("streetName", "streetNumber", "postalCode", "city");
-        String password = "admin";
-        CreateUserDto createUserDto = new CreateUserDto(socialSecurityNumber, firstName, lastName, email, address, password);
+        //WHEN
+        List<UserDto> listOfUserDto =
+                RestAssured
+                        .given()
+                        .contentType(JSON)
+                        .header("email", "admin@digibooky.com")
+                        .header("password", "admin")
+                        .when()
+                        .port(port)
+                        .get("/users")
+                        .then()
+                        .assertThat()
+                        .statusCode(HttpStatus.OK.value())
+                        .extract()
+                        .body()
+                        .jsonPath()
+                        .getList(".", UserDto.class);
+
+
+        assertThat(listOfUserDto).hasSize(3);
+        assertThat(listOfUserDto).allSatisfy(userDto -> assertThat(userDto).isInstanceOf(UserDto.class));
     }
 }

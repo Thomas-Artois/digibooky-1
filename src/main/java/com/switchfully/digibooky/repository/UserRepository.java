@@ -19,9 +19,16 @@ public class UserRepository {
     public UserRepository() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         Address address = new Address("streetName", "streetNumber", "postalCode", "city");
-        User adminUser = new User("ABCDEFGH", "admin", "admin", "admin@digibooky.com", address, Role.ADMIN, bCryptPasswordEncoder.encode("admin"));
-
+        User adminUser = new User("ADMINADM", "admin", "admin", "admin@digibooky.com", address, Role.ADMIN, bCryptPasswordEncoder.encode("admin"));
         create(adminUser);
+
+        List<User> listOfUsers = List.of(
+                new User("12345678", "One", "OneLast", "one@digibooky.com", new Address("Stockholm"), Role.MEMBER, "passwordOne"),
+                new User("beepboop", "Two", "TwoLast", "two@digibooky.com", new Address("Stockholm"), Role.MEMBER, "passwordTwo"),
+                new User("12345679", "Three", "ThreeLast", "three@digibooky.com", new Address("Stockholm"), Role.MEMBER, "passwordThree")
+        );
+
+        listOfUsers.forEach(this::create);
     }
 
     public User create(User user) {
@@ -31,13 +38,13 @@ public class UserRepository {
     }
 
     public void checkIfEmailExists(String email) throws IllegalArgumentException {
-        if (users.values().stream().noneMatch(user -> user.getEmail().equals(email))) {
+        if (users.values().stream().anyMatch(user -> user.getEmail().equals(email))) {
             throw new IllegalArgumentException();
         }
     }
 
     public void checkIfSocialSecurityNumberExists(String socialSecurityNumber) throws IllegalArgumentException{
-        if (users.values().stream().noneMatch(user -> user.getSocialSecurityNumber().equals(socialSecurityNumber))) {
+        if (users.values().stream().anyMatch(user -> user.getSocialSecurityNumber().equals(socialSecurityNumber))) {
             throw new IllegalArgumentException();
         }
     }
@@ -45,6 +52,7 @@ public class UserRepository {
     public User getUserByEmail(String email) throws IllegalArgumentException {
         return users.values().stream().filter(user -> user.getEmail().equals(email)).findFirst().orElseThrow(IllegalArgumentException::new);
     }
+
 
     public List<User> getAllMembers() {
         return users.values().stream().filter(user -> user.getRole().equals(Role.MEMBER)).collect(Collectors.toList());
