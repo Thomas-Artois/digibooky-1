@@ -1,7 +1,6 @@
 package com.switchfully.digibooky.repository;
 
 import com.switchfully.digibooky.domain.Book;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -9,7 +8,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class BookRepository {
-    private Map<String, Book> books = new HashMap<>();
+    private final Map<String, Book> books = new HashMap<>();
 
     public Collection<Book> findAllBooks() {
         return books.values();
@@ -37,7 +36,7 @@ public class BookRepository {
                 .collect(Collectors.toList());
     }
 
-    public boolean checkIfBookExists(String id) {
-        return books.get(id) != null;
+    public boolean isBookIdPresent(String id) {
+        return books.containsKey(id);
     }
 }
