@@ -6,10 +6,15 @@ import com.switchfully.digibooky.dto.CreateUserDto;
 import com.switchfully.digibooky.dto.UserDto;
 import com.switchfully.digibooky.mapper.UserMapper;
 import com.switchfully.digibooky.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
     private UserMapper userMapper;
     private UserRepository userRepository;
 
@@ -18,25 +23,56 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserDto createUser(CreateUserDto createUserDto) {
+    public UserDto createAdmin(CreateUserDto createUserDto) {
+        return createUser(createUserDto, Role.ADMIN);
+    }
+
+    public UserDto createLibrarian(CreateUserDto createUserDto) {
+        return createUser(createUserDto, Role.LIBRARIAN);
+    }
+
+    public UserDto createMember(CreateUserDto createUserDto) {
+        return createUser(createUserDto, Role.MEMBER);
+    }
+
+    public void checkIfUserIsAdmin(String email, String password) {
+        User user = userRepository.getUserByEmail(email);
+        checkIfPasswordIsCorrect(user, password);
+
+        if (user.getRole() != Role.ADMIN) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public void checkIfUserIsLibrarian(String email, String password) {
+        User user = userRepository.getUserByEmail(email);
+        checkIfPasswordIsCorrect(user, password);
+
+        if (user.getRole() != Role.LIBRARIAN) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private UserDto createUser(CreateUserDto createUserDto, Role role) throws IllegalArgumentException {
         if (userRepository.checkIfEmailExists(createUserDto.getEmail())) {
             throw new IllegalArgumentException();
         }
 
-        User user = userRepository.create(userMapper.mapCreateUserDtoToUser(createUserDto, Role.MEMBER));
+        createUserDto.setPassword(bCryptPasswordEncoder.encode(createUserDto.getPassword()));
+
+        User user = userRepository.create(userMapper.mapCreateUserDtoToUser(createUserDto, role));
         UserDto userDto = userMapper.mapUserToUserDto(user);
 
         return userDto;
     }
 
-    public UserDto createLibrarian(CreateUserDto createUserDto) {
-        if (userRepository.checkIfEmailExists(createUserDto.getEmail())) {
+    private void checkIfPasswordIsCorrect(User user, String password) throws IllegalArgumentException {
+        if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException();
         }
+    }
 
-        User user = userRepository.create(userMapper.mapCreateUserDtoToUser(createUserDto, Role.LIBRARIAN));
-        UserDto userDto = userMapper.mapUserToUserDto(user);
-
-        return userDto;
+    public List<UserDto> getAllMembers() {
+        return userRepository.getAllMembers().stream().map(user -> userMapper.mapUserToUserDto(user)).collect(Collectors.toList());
     }
 }
