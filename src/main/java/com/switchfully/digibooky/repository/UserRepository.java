@@ -3,6 +3,9 @@ package com.switchfully.digibooky.repository;
 import com.switchfully.digibooky.domain.Address;
 import com.switchfully.digibooky.domain.Role;
 import com.switchfully.digibooky.domain.User;
+import com.switchfully.digibooky.exception.EmailExistsException;
+import com.switchfully.digibooky.exception.SocialSecurityNumberExistsException;
+import com.switchfully.digibooky.exception.UserNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -37,20 +40,20 @@ public class UserRepository {
         return user;
     }
 
-    public void checkIfEmailExists(String email) throws IllegalArgumentException {
+    public void checkIfEmailExists(String email) throws EmailExistsException {
         if (users.values().stream().anyMatch(user -> user.getEmail().equals(email))) {
-            throw new IllegalArgumentException();
+            throw new EmailExistsException();
         }
     }
 
-    public void checkIfSocialSecurityNumberExists(String socialSecurityNumber) throws IllegalArgumentException{
+    public void checkIfSocialSecurityNumberExists(String socialSecurityNumber) throws SocialSecurityNumberExistsException {
         if (users.values().stream().anyMatch(user -> user.getSocialSecurityNumber().equals(socialSecurityNumber))) {
-            throw new IllegalArgumentException();
+            throw new SocialSecurityNumberExistsException();
         }
     }
 
-    public User getUserByEmail(String email) throws IllegalArgumentException {
-        return users.values().stream().filter(user -> user.getEmail().equals(email)).findFirst().orElseThrow(IllegalArgumentException::new);
+    public User getUserByEmail(String email) throws UserNotFoundException {
+        return users.values().stream().filter(user -> user.getEmail().equals(email)).findFirst().orElseThrow(UserNotFoundException::new);
     }
 
 

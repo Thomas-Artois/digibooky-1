@@ -4,6 +4,7 @@ import com.switchfully.digibooky.domain.Role;
 import com.switchfully.digibooky.domain.User;
 import com.switchfully.digibooky.dto.CreateUserDto;
 import com.switchfully.digibooky.dto.UserDto;
+import com.switchfully.digibooky.exception.*;
 import com.switchfully.digibooky.mapper.UserMapper;
 import com.switchfully.digibooky.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,25 +36,25 @@ public class UserService {
         return createUser(createUserDto, Role.MEMBER);
     }
 
-    public void checkIfUserIsAdmin(String email, String password) {
+    public void checkIfUserIsAdmin(String email, String password) throws NotAnAdminException {
         User user = userRepository.getUserByEmail(email);
         checkIfPasswordIsCorrect(user, password);
 
         if (user.getRole() != Role.ADMIN) {
-            throw new IllegalArgumentException();
+            throw new NotAnAdminException();
         }
     }
 
-    public void checkIfUserIsLibrarian(String email, String password) {
+    public void checkIfUserIsLibrarian(String email, String password) throws NotALibrarianException {
         User user = userRepository.getUserByEmail(email);
         checkIfPasswordIsCorrect(user, password);
 
         if (user.getRole() != Role.LIBRARIAN) {
-            throw new IllegalArgumentException();
+            throw new NotALibrarianException();
         }
     }
 
-    private UserDto createUser(CreateUserDto createUserDto, Role role) throws IllegalArgumentException {
+    private UserDto createUser(CreateUserDto createUserDto, Role role) throws EmailExistsException, SocialSecurityNumberExistsException {
         userRepository.checkIfEmailExists(createUserDto.getEmail());
         userRepository.checkIfSocialSecurityNumberExists(createUserDto.getSocialSecurityNumber());
 
@@ -64,9 +65,9 @@ public class UserService {
         return userMapper.mapUserToUserDto(user);
     }
 
-    private void checkIfPasswordIsCorrect(User user, String password) throws IllegalArgumentException {
+    private void checkIfPasswordIsCorrect(User user, String password) throws PasswordIsIncorrectException {
         if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalArgumentException();
+            throw new PasswordIsIncorrectException();
         }
     }
 
