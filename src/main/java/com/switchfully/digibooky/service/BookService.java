@@ -54,19 +54,19 @@ public class BookService {
 
     }
 
-    public Stream<Book> findBooksByIsbn(String isbnNumber, Stream<Book> stream) {
+    private Stream<Book> findBooksByIsbn(String isbnNumber, Stream<Book> stream) {
         return stream.filter(
                 book -> book.getIsbnNumber().contains(isbnNumber)
         );
     }
 
-    public Stream<Book> findBooksByTitle(String title, Stream<Book> stream) {
+    private Stream<Book> findBooksByTitle(String title, Stream<Book> stream) {
         return stream.filter(
                 book -> book.getTitle().contains(title)
         );
     }
 
-    public Stream<Book> findBooksByAuthor(String author, Stream<Book> stream) {
+    private Stream<Book> findBooksByAuthor(String author, Stream<Book> stream) {
         return stream.filter(
                 book -> book.getAuthor().contains(author)
         );
