@@ -1,6 +1,5 @@
 package com.switchfully.digibooky.controller;
 
-import com.switchfully.digibooky.domain.Book;
 import com.switchfully.digibooky.dto.BookDto;
 import com.switchfully.digibooky.exception.BookNotFoundException;
 import com.switchfully.digibooky.service.BookService;
@@ -27,25 +26,19 @@ public class BookController {
 
     @GetMapping("/{id}")
     public BookDto getSingleBookById(@PathVariable String id) {
-        try{
+        try {
             return bookService.findSingleBookById(id);
         } catch (BookNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 
-    @GetMapping("/isbn/{isbnNumber}")
-    public List<BookDto> getBooksByIsbn(@PathVariable String isbnNumber) {
-        return bookService.findBooksByIsbn(isbnNumber);
-    }
+    @GetMapping("/search")
+    public List<BookDto> searchBooks(@RequestParam(required = false) String isbnNumber, @RequestParam(required = false) String title, @RequestParam(required = false) String author) {
+        if (isbnNumber == null && title == null && author == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
 
-    @GetMapping("/title/{title}")
-    public List<BookDto> getBooksByTitle(@PathVariable String title) {
-        return bookService.findBooksByTitle(title);
-    }
-
-    @GetMapping("/author/{author}")
-    public List<BookDto> getBooksByAuthor(@PathVariable String author) {
-        return bookService.findBooksByTitle(author);
+        return bookService.searchBooks(isbnNumber, title, author);
     }
 }

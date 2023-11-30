@@ -1,5 +1,6 @@
 package com.switchfully.digibooky.service;
 
+import com.switchfully.digibooky.domain.Book;
 import com.switchfully.digibooky.dto.BookDto;
 import com.switchfully.digibooky.exception.BookNotFoundException;
 import com.switchfully.digibooky.mapper.BookMapper;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class BookService {
@@ -27,28 +29,46 @@ public class BookService {
     }
 
     public BookDto findSingleBookById(String id) {
-        if(!bookRepository.isBookIdPresent(id)){
+        if (!bookRepository.isBookIdPresent(id)) {
             throw new BookNotFoundException("Book Not Found");
         }
         return bookMapper.mapBookToBookDto(bookRepository.findSingleBookById(id));
 
     }
 
-    public List<BookDto> findBooksByIsbn(String isbnNumber) {
-        return bookRepository.findBooksByIsbn(isbnNumber).stream()
+    public List<BookDto> searchBooks(String isbnNumber, String title, String author) {
+        Stream<Book> bookList = bookRepository.findAllBooks().stream();
+
+        if (isbnNumber != null) {
+            bookList = findBooksByIsbn(isbnNumber, bookList);
+        }
+        if (title != null) {
+            bookList = findBooksByTitle(title, bookList);
+        }
+        if (author != null) {
+            bookList = findBooksByAuthor(author, bookList);
+        }
+        return bookList
                 .map(book -> bookMapper.mapBookToBookDto(book))
                 .collect(Collectors.toList());
+
     }
 
-    public List<BookDto> findBooksByTitle(String title) {
-        return bookRepository.findBooksByTitle(title).stream()
-                .map((book -> bookMapper.mapBookToBookDto(book)))
-                .collect(Collectors.toList());
+    private Stream<Book> findBooksByIsbn(String isbnNumber, Stream<Book> stream) {
+        return stream.filter(
+                book -> book.getIsbnNumber().contains(isbnNumber)
+        );
     }
 
-    public List<BookDto> findBooksByAuthor(String author){
-        return  bookRepository.findBooksByAuthor(author).stream()
-                .map((book-> bookMapper.mapBookToBookDto(book)))
-                .collect(Collectors.toList());
+    private Stream<Book> findBooksByTitle(String title, Stream<Book> stream) {
+        return stream.filter(
+                book -> book.getTitle().contains(title)
+        );
+    }
+
+    private Stream<Book> findBooksByAuthor(String author, Stream<Book> stream) {
+        return stream.filter(
+                book -> book.getAuthor().contains(author)
+        );
     }
 }
