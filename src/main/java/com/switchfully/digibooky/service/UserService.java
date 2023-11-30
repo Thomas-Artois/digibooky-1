@@ -54,16 +54,14 @@ public class UserService {
     }
 
     private UserDto createUser(CreateUserDto createUserDto, Role role) throws IllegalArgumentException {
-        if (userRepository.checkIfEmailExists(createUserDto.getEmail())) {
-            throw new IllegalArgumentException();
-        }
+        userRepository.checkIfEmailExists(createUserDto.getEmail());
+        userRepository.checkIfSocialSecurityNumberExists(createUserDto.getSocialSecurityNumber());
 
         createUserDto.setPassword(bCryptPasswordEncoder.encode(createUserDto.getPassword()));
 
         User user = userRepository.create(userMapper.mapCreateUserDtoToUser(createUserDto, role));
-        UserDto userDto = userMapper.mapUserToUserDto(user);
 
-        return userDto;
+        return userMapper.mapUserToUserDto(user);
     }
 
     private void checkIfPasswordIsCorrect(User user, String password) throws IllegalArgumentException {

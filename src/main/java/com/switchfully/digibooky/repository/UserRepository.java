@@ -25,21 +25,25 @@ public class UserRepository {
     }
 
     public User create(User user) {
-        users.put(user.getId().toString(), user);
+        users.put(user.getId(), user);
 
         return user;
     }
 
-    public boolean checkIfEmailExists(String email) {
-        return users.entrySet().stream().anyMatch(stringUserEntry -> stringUserEntry.getValue().getEmail().equals(email));
+    public void checkIfEmailExists(String email) throws IllegalArgumentException {
+        if (users.values().stream().noneMatch(user -> user.getEmail().equals(email))) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public void checkIfSocialSecurityNumberExists(String socialSecurityNumber) throws IllegalArgumentException{
+        if (users.values().stream().noneMatch(user -> user.getSocialSecurityNumber().equals(socialSecurityNumber))) {
+            throw new IllegalArgumentException();
+        }
     }
 
     public User getUserByEmail(String email) throws IllegalArgumentException {
-        if (!checkIfEmailExists(email)) {
-            throw new IllegalArgumentException();
-        }
-
-        return users.entrySet().stream().filter(stringUserEntry -> stringUserEntry.getValue().getEmail().equals(email)).findAny().get().getValue();
+        return users.values().stream().filter(user -> user.getEmail().equals(email)).findFirst().orElseThrow(IllegalArgumentException::new);
     }
 
     public List<User> getAllMembers() {
