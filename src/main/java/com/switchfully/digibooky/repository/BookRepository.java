@@ -23,4 +23,10 @@ public class BookRepository {
                 .filter(book -> book.getIsbnNumber().contains(isbnNumber))
                 .collect(Collectors.toList());
     }
+
+    public List<Book> findBooksByTitle(String title) {
+        return books.values().stream()
+                .filter(book -> book.getTitle().contains(title))
+                .collect(Collectors.toList());
+    }
 }
