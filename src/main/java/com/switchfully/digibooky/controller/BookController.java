@@ -35,7 +35,9 @@ public class BookController {
 
     @GetMapping("/search")
     public List<BookDto> searchBooks(@RequestParam(required = false) String isbnNumber, @RequestParam(required = false) String title, @RequestParam(required = false) String author) {
-
+        if (isbnNumber == null && title == null && author == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
 
         return bookService.searchBooks(isbnNumber, title, author);
     }
