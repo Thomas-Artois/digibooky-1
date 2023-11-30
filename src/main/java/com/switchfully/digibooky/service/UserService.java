@@ -9,6 +9,9 @@ import com.switchfully.digibooky.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -67,5 +70,9 @@ public class UserService {
         if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException();
         }
+    }
+
+    public List<UserDto> getAllMembers() {
+        return userRepository.getAllMembers().stream().map(user -> userMapper.mapUserToUserDto(user)).collect(Collectors.toList());
     }
 }

@@ -156,4 +156,16 @@ class UserControllerIntegrationTest {
 
         assertThat(userDto.getRole()).isEqualTo(Role.LIBRARIAN);
     }
+
+    @Test
+    void givenAdminUser_whenAdminGetsAllMembers_thenReturnListOfAllMembers() {
+        //GIVEN
+        String socialSecurityNumber = "ABCDEFGH";
+        String firstName = "firstName";
+        String lastName = "lastName";
+        String email = "admin@digibooky.com";
+        Address address = new Address("streetName", "streetNumber", "postalCode", "city");
+        String password = "admin";
+        CreateUserDto createUserDto = new CreateUserDto(socialSecurityNumber, firstName, lastName, email, address, password);
+    }
 }

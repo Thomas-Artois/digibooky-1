@@ -18,7 +18,7 @@ public class GreetingController {
     @RequestMapping("/hello")
     @ResponseBody
     String getWelcomeMessage() {
-        System.out.println(userRepository.users);
+
 
         return "test";
     }

@@ -6,13 +6,15 @@ import com.switchfully.digibooky.domain.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import java.lang.reflect.Member;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
 public class UserRepository {
-    public Map<String, User> users = new HashMap<>();
+    private Map<String, User> users = new HashMap<>();
 
     public UserRepository() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -38,5 +40,9 @@ public class UserRepository {
         }
 
         return users.entrySet().stream().filter(stringUserEntry -> stringUserEntry.getValue().getEmail().equals(email)).findAny().get().getValue();
+    }
+
+    public List<User> getAllMembers() {
+        return users.values().stream().filter(user -> user.getRole().equals(Role.MEMBER)).collect(Collectors.toList());
     }
 }
