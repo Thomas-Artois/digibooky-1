@@ -39,6 +39,7 @@ public class BookRepository {
     }
 
     public boolean isBookIdPresent(String id) {
+
         return books.containsKey(id);
     }
 
@@ -58,6 +59,6 @@ public class BookRepository {
     }
 
     public void delete(String id) {
-        findSingleBookById(id).setDeleted(true);
+        books.get(id).setDeleted(true);
     }
 }

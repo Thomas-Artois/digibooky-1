@@ -103,4 +103,31 @@ public class LibrarianControllerIntegrationTest {
         assertThat(bookDto.getSummary()).isEqualTo(updateBookDto.getSummary());
     }
 
+    @Test
+    void givenBookId_whenDeleteBook_thenBookIsDeleted() {
+
+        //GIVEN
+        String id = "ab6b699e-21e3-4624-b236-9f8d9f6a22cf";
+        //WHEN
+        RestAssured
+                .given()
+                .header("email", "librarian@digibooky.com")
+                .header("password", "librarian")
+                .when()
+                .port(port)
+                .delete("/manage-books/" + id)
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.NO_CONTENT.value());
+        //THEN
+        RestAssured
+                .given()
+                .when()
+                .port(port)
+                .get("/books/" + id)
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.NOT_FOUND.value());
+    }
+
 }
