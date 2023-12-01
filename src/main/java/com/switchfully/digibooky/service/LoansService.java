@@ -15,15 +15,19 @@ public class LoansService {
     private LoansRepository loansRepository;
     private LoansMapper loansMapper;
     private BookRepository bookRepository;
+    private UserService userService;
 
-    public LoansService(LoansRepository loansRepository, LoansMapper loansMapper) {
+    public LoansService(LoansRepository loansRepository, LoansMapper loansMapper, BookRepository bookRepository, UserService userService) {
         this.loansRepository = loansRepository;
         this.loansMapper = loansMapper;
+        this.bookRepository = bookRepository;
+        this.userService = userService;
     }
 
     public LoanDto lendBook(String memberId, String isbnNumber) throws BookNotFoundException {
         checkIfIsbnNumberExists(isbnNumber);
         checkIfBookIsLentOutAlready(isbnNumber);
+        userService.checkIfUserIsMember(memberId);
 
         return loansMapper.mapLoanToLoanDto(loansRepository.lendBook(memberId,isbnNumber));
     }

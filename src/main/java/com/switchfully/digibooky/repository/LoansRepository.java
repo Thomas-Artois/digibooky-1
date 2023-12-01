@@ -6,11 +6,13 @@ import com.switchfully.digibooky.exception.LoanAlreadyExistsException;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
 public class LoansRepository {
     private Map<String, Loan> lentBooks = new HashMap<>();
+
 
     public Loan lendBook(String memberId, String isbnNumber) {
         Loan loan = new Loan(memberId, isbnNumber);

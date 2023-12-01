@@ -6,6 +6,7 @@ import com.switchfully.digibooky.dto.LoanDto;
 import com.switchfully.digibooky.exception.BookNotFoundException;
 import com.switchfully.digibooky.exception.LoanAlreadyExistsException;
 import com.switchfully.digibooky.exception.NotALibrarianException;
+import com.switchfully.digibooky.exception.NotAMemberException;
 import com.switchfully.digibooky.service.LoansService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,11 @@ public class LoansController {
     @ExceptionHandler(LoanAlreadyExistsException.class)
     private void loanAlreadyExistsException(LoanAlreadyExistsException e, HttpServletResponse response) throws IOException {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(NotAMemberException.class)
+    private void notAMemberException(NotAMemberException e, HttpServletResponse response) throws IOException {
+        response.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
     }
 
 }

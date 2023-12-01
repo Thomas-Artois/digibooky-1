@@ -58,6 +58,14 @@ public class UserRepository {
         return users.values().stream().filter(user -> user.getEmail().equals(email)).findFirst().orElseThrow(UserNotFoundException::new);
     }
 
+    public User getUserById(String userId) throws UserNotFoundException{
+        User user = users.get(userId);
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+        return users.get(userId);
+    }
+
 
     public List<User> getAllMembers() {
         return users.values().stream().filter(user -> user.getRole().equals(Role.MEMBER)).collect(Collectors.toList());
