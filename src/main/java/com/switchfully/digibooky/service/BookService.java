@@ -2,7 +2,10 @@ package com.switchfully.digibooky.service;
 
 import com.switchfully.digibooky.domain.Book;
 import com.switchfully.digibooky.dto.BookDto;
+import com.switchfully.digibooky.dto.CreateBookDto;
+import com.switchfully.digibooky.dto.UpdateBookDto;
 import com.switchfully.digibooky.exception.BookNotFoundException;
+import com.switchfully.digibooky.exception.IsbnNumberExistsException;
 import com.switchfully.digibooky.mapper.BookMapper;
 import com.switchfully.digibooky.repository.BookRepository;
 import org.springframework.stereotype.Service;
@@ -70,5 +73,18 @@ public class BookService {
         return stream.filter(
                 book -> book.getAuthor().contains(author)
         );
+    }
+
+    public BookDto createBook(CreateBookDto createBookDto) throws IsbnNumberExistsException {
+        bookRepository.checkIfIsbnNumberExists(createBookDto.getIsbnNumber());
+
+        Book book = bookRepository.create(bookMapper.mapCreateBookDtoToBook(createBookDto));
+
+        return bookMapper.mapBookToBookDto(book);
+    }
+
+    public BookDto updateBook(BookDto bookDto, UpdateBookDto updateBookDto) {
+        Book book = bookRepository.update(bookMapper.mapUpdateBookDtoToBook(bookDto, updateBookDto));
+        return bookMapper.mapBookToBookDto(book);
     }
 }
