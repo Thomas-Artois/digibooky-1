@@ -93,4 +93,15 @@ public class BookService {
     public void deleteBook(BookDto bookDto) {
         bookRepository.delete(bookDto.getId());
     }
+
+    public BookDto findDeletedBookById(String id) {
+        if (!bookRepository.isBookIdPresent(id)) {
+            throw new BookNotFoundException();
+        }
+        return bookMapper.mapBookToBookDto(bookRepository.findSingleBookById(id));
+    }
+
+    public void restoreBook(BookDto bookDto) {
+        bookRepository.restore(bookDto.getId());
+    }
 }
