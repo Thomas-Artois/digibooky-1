@@ -13,7 +13,7 @@ public class Book {
         this(UUID.randomUUID().toString(), isbnNumber, title, author, summary);
     }
 
-    private Book(String id, String isbnNumber, String title, String author, String summary) {
+    public Book(String id, String isbnNumber, String title, String author, String summary) {
         this.id = id;
         this.isbnNumber = isbnNumber;
         this.title = title;
