@@ -1,8 +1,7 @@
 package com.switchfully.digibooky.domain;
 
 public class IsbnValidation {
-    private String isbnNumber;
-
+    // TODO Comment, input validation
     public static boolean isIsbn13(String isbnNumber) {
         return hasValidPrefix(isbnNumber) && hasValidLength(isbnNumber) && hasValidCheckSum(isbnNumber);
     }
