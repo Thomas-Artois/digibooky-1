@@ -1,7 +1,7 @@
 package com.switchfully.digibooky.exception;
 
 public class BookNotFoundException extends RuntimeException{
-    public BookNotFoundException(String message) {
-        super(message);
+    public BookNotFoundException() {
+        super("This book doesn't exist exception");
     }
 }
