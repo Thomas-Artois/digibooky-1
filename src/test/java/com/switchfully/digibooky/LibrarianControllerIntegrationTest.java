@@ -2,6 +2,7 @@ package com.switchfully.digibooky;
 
 import com.switchfully.digibooky.dto.BookDto;
 import com.switchfully.digibooky.dto.CreateBookDto;
+import com.switchfully.digibooky.dto.UpdateBookDto;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,13 +22,12 @@ public class LibrarianControllerIntegrationTest {
     
     @Test
     void givenCreateBookDto_whenCreateBook_thenReturnBookDto(){
-        //GIVEN
 
+        //GIVEN
         String isbnNumber = "9780596528126";
         String title = "Fly";
         String author = "Heminghway";
         String summary= "AADf fivif sdfsd";
-
 
         CreateBookDto createBookDto = new CreateBookDto(isbnNumber, title, author, summary);
         
@@ -61,4 +61,46 @@ public class LibrarianControllerIntegrationTest {
         assertThat(bookDto.getSummary()).isNotBlank();
         assertThat(bookDto.getSummary()).isEqualTo(createBookDto.getSummary());
     }
+
+    @Test
+    void givenUpdateBookDto_whenUpdateBook_thenReturnBookDto(){
+
+        //GIVEN
+        String id = "ab6b699e-21e3-4624-b236-9f8d9f6a22cf";
+        String isbnNumber = "9785744653941";
+        String title = "Fly";
+        String author = "Heminghway";
+        String summary= "AADf fivif sdfsd";
+
+        UpdateBookDto updateBookDto = new UpdateBookDto(title, author, summary);
+
+        //WHEN
+        BookDto bookDto =
+                RestAssured
+                        .given()
+                        .body(updateBookDto)
+                        .accept(JSON)
+                        .contentType(JSON)
+                        .header("email", "librarian@digibooky.com")
+                        .header("password", "librarian")
+                        .when()
+                        .port(port)
+                        .put("/manage-books/" + id)
+                        .then()
+                        .assertThat()
+                        .statusCode(HttpStatus.OK.value())
+                        .extract()
+                        .as(BookDto.class);
+
+
+        assertThat(bookDto.getTitle()).isNotBlank();
+        assertThat(bookDto.getTitle()).isEqualTo(updateBookDto.getTitle());
+
+        assertThat(bookDto.getAuthor()).isNotBlank();
+        assertThat(bookDto.getAuthor()).isEqualTo(updateBookDto.getAuthor());
+
+        assertThat(bookDto.getSummary()).isNotBlank();
+        assertThat(bookDto.getSummary()).isEqualTo(updateBookDto.getSummary());
+    }
+
 }

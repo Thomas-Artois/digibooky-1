@@ -1,9 +1,6 @@
 package com.switchfully.digibooky.controller;
 
-import com.switchfully.digibooky.dto.BookDto;
-import com.switchfully.digibooky.dto.CreateBookDto;
-import com.switchfully.digibooky.dto.CreateUserDto;
-import com.switchfully.digibooky.dto.UserDto;
+import com.switchfully.digibooky.dto.*;
 import com.switchfully.digibooky.service.BookService;
 import com.switchfully.digibooky.service.UserService;
 import jakarta.validation.Valid;
@@ -29,6 +26,14 @@ public class LibrarianController {
     public BookDto createBook(@RequestHeader String email, @RequestHeader String password, @Valid @RequestBody CreateBookDto createBookDto) {
         userService.checkIfUserIsLibrarian(email, password);
         return bookService.createBook(createBookDto);
+    }
+
+    @PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public BookDto updateBook(@RequestHeader String email, @RequestHeader String password,@PathVariable String id, @Valid @RequestBody UpdateBookDto updateBookDto) {
+        userService.checkIfUserIsLibrarian(email, password);
+        BookDto bookDto = bookService.findSingleBookById(id);
+        return bookService.updateBook(bookDto, updateBookDto);
     }
 
 
