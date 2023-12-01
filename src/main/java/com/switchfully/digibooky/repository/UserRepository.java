@@ -28,9 +28,9 @@ public class UserRepository {
         create(librarianUser);
 
         List<User> listOfUsers = List.of(
-                new User("11111111", "One", "OneLast", "one@digibooky.com", new Address("Stockholm"), Role.MEMBER, "passwordOne"),
-                new User("22222222", "Two", "TwoLast", "two@digibooky.com", new Address("Stockholm"), Role.MEMBER, "passwordTwo"),
-                new User("33333333", "Three", "ThreeLast", "three@digibooky.com", new Address("Stockholm"), Role.MEMBER, "passwordThree")
+                new User("11111111", "One", "OneLast", "one@digibooky.com", new Address("Stockholm"), Role.MEMBER, bCryptPasswordEncoder.encode("passwordOne")),
+                new User("22222222", "Two", "TwoLast", "two@digibooky.com", new Address("Stockholm"), Role.MEMBER, bCryptPasswordEncoder.encode("passwordTwo")),
+                new User("33333333", "Three", "ThreeLast", "three@digibooky.com", new Address("Stockholm"), Role.MEMBER, bCryptPasswordEncoder.encode("passwordThree"))
         );
 
         listOfUsers.forEach(this::create);
