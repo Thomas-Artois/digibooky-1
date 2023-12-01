@@ -21,7 +21,7 @@ public class IsbnValidationTest {
     }
 
     @Test
-    void givenValidIsbn_ThenReturnFalse(){
+    void givenInvalidIsbn_ThenReturnFalse(){
         //given
         String isbnNumber = "8780596528126";
 

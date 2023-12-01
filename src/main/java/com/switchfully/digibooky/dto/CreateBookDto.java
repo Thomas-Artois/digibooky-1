@@ -1,6 +1,6 @@
 package com.switchfully.digibooky.dto;
 
-import java.util.UUID;
+import com.switchfully.digibooky.domain.IsbnValidation;
 
 public class CreateBookDto {
     private final String isbnNumber;
@@ -9,6 +9,9 @@ public class CreateBookDto {
     private final String summary;
 
     public CreateBookDto(String isbnNumber, String title, String author, String summary) {
+        if (!IsbnValidation.isIsbn13(isbnNumber)) {
+            throw new IllegalArgumentException("Incorrect ISBN13 format");
+        }
         this.isbnNumber = isbnNumber;
         this.title = title;
         this.author = author;
