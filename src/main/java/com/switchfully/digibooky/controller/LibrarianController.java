@@ -36,6 +36,14 @@ public class LibrarianController {
         return bookService.updateBook(bookDto, updateBookDto);
     }
 
+    @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteBook(@RequestHeader String email, @RequestHeader String password,@PathVariable String id){
+        userService.checkIfUserIsLibrarian(email, password);
+        BookDto bookDto = bookService.findSingleBookById(id);
+        bookService.deleteBook(bookDto);
+    }
+
 
 
 
