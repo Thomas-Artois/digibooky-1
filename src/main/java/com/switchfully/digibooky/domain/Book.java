@@ -22,6 +22,15 @@ public class Book {
         this.summary = summary;
     }
 
+    public Book(String id, String isbnNumber, String title, String author, String summary, boolean deleted) {
+        this.id = id;
+        this.isbnNumber = isbnNumber;
+        this.title = title;
+        this.author = author;
+        this.summary = summary;
+        this.deleted = deleted;
+    }
+
     public boolean isDeleted() {
         return deleted;
     }

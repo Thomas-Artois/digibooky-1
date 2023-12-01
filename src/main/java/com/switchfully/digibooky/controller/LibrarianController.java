@@ -44,6 +44,14 @@ public class LibrarianController {
         bookService.deleteBook(bookDto);
     }
 
+    @PatchMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void restoreBook(@RequestHeader String email, @RequestHeader String password,@PathVariable String id){
+        userService.checkIfUserIsLibrarian(email, password);
+        BookDto bookDto = bookService.findDeletedBookById(id);
+        bookService.restoreBook(bookDto);
+    }
+
 
 
 
