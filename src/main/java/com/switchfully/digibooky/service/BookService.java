@@ -5,7 +5,7 @@ import com.switchfully.digibooky.dto.BookDto;
 import com.switchfully.digibooky.dto.CreateBookDto;
 import com.switchfully.digibooky.dto.UpdateBookDto;
 import com.switchfully.digibooky.exception.BookNotFoundException;
-import com.switchfully.digibooky.exception.IsbnNumberExistsException;
+import com.switchfully.digibooky.exception.DuplicateIsbnNumberException;
 import com.switchfully.digibooky.mapper.BookMapper;
 import com.switchfully.digibooky.repository.BookRepository;
 import org.springframework.stereotype.Service;
@@ -75,8 +75,8 @@ public class BookService {
         );
     }
 
-    public BookDto createBook(CreateBookDto createBookDto) throws IsbnNumberExistsException {
-        bookRepository.checkIfIsbnNumberExists(createBookDto.getIsbnNumber());
+    public BookDto createBook(CreateBookDto createBookDto) throws DuplicateIsbnNumberException {
+        bookRepository.checkIfIsbnNumberIsDuplicate(createBookDto.getIsbnNumber());
 
         Book book = bookRepository.create(bookMapper.mapCreateBookDtoToBook(createBookDto));
 

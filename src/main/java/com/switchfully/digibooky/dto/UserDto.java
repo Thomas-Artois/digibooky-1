@@ -26,8 +26,9 @@ public class UserDto {
         this.role = role;
     }
 
-    public String getSocialSecurityNumber() {
-        return socialSecurityNumber;
+
+    public String getId() {
+        return id;
     }
 
     public void setSocialSecurityNumber(String socialSecurityNumber) {

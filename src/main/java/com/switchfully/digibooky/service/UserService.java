@@ -54,6 +54,25 @@ public class UserService {
         }
     }
 
+    // TODO refactor params
+    public void checkIfUserIsMember(String email, String password) throws NotAMemberException {
+        User user = userRepository.getUserByEmail(email);
+        checkIfPasswordIsCorrect(user, password);
+
+        if (user.getRole() != Role.MEMBER) {
+            throw new NotAMemberException();
+        }
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.getUserByEmail(email);
+    }
+
+    public void checkIfUserExists(String userId) throws UserNotFoundException {
+        User user = userRepository.getUserById(userId);
+        checkIfPasswordIsCorrect(user, user.getPassword());
+    }
+
     private UserDto createUser(CreateUserDto createUserDto, Role role) throws EmailExistsException, SocialSecurityNumberExistsException {
         userRepository.checkIfEmailExists(createUserDto.getEmail());
         userRepository.checkIfSocialSecurityNumberExists(createUserDto.getSocialSecurityNumber());

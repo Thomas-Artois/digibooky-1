@@ -1,12 +1,9 @@
 package com.switchfully.digibooky.repository;
 
-import com.switchfully.digibooky.domain.Address;
 import com.switchfully.digibooky.domain.Book;
 import com.switchfully.digibooky.exception.BookNotFoundException;
-import com.switchfully.digibooky.domain.Role;
-import com.switchfully.digibooky.domain.User;
-import com.switchfully.digibooky.exception.IsbnNumberExistsException;
-import com.switchfully.digibooky.exception.SocialSecurityNumberExistsException;
+import com.switchfully.digibooky.exception.DuplicateIsbnNumberException;
+import com.switchfully.digibooky.exception.IsbnNumberNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -32,6 +29,7 @@ public class BookRepository {
     }
 
     public Book findSingleBookByIsbnNumber(String isbnNumberToFind) throws BookNotFoundException{
+        System.out.println("bookRepository: " + isbnNumberToFind);
         return books.values().stream()
                 .filter(book -> isbnNumberToFind.equals(book.getIsbnNumber()))
                 .findFirst()
@@ -42,11 +40,20 @@ public class BookRepository {
         return books.containsKey(id);
     }
 
-    public void checkIfIsbnNumberExists(String isbnNumber) throws IsbnNumberExistsException {
-        if (books.values().stream().anyMatch(book -> book.getIsbnNumber().equals(isbnNumber))) {
-            throw new IsbnNumberExistsException();
+    public void checkIfIsbnNumberIsDuplicate(String isbnNumber) throws DuplicateIsbnNumberException {
+        System.out.println("Check isbn number is duplicate" + isbnNumber);
+        if (books.values().stream().anyMatch(book ->  book.getIsbnNumber().equals(isbnNumber))) {
+            throw new DuplicateIsbnNumberException();
         }
     }
+
+    public void checkIfIsbnNumberExists(String isbnNumber) throws IsbnNumberNotFoundException {
+        System.out.println("Check isbn number exists" + isbnNumber);
+        if (books.values().stream().noneMatch(book ->  book.getIsbnNumber().equals(isbnNumber))) {
+            throw new IsbnNumberNotFoundException();
+        }
+    }
+
     public Book create(Book book) {
         books.put(book.getId(), book);
         return book;
