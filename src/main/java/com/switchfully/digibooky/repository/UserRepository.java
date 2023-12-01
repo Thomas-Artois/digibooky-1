@@ -24,6 +24,8 @@ public class UserRepository {
         Address address = new Address("streetName", "streetNumber", "postalCode", "city");
         User adminUser = new User("AAAAAAAA", "admin", "admin", "admin@digibooky.com", address, Role.ADMIN, bCryptPasswordEncoder.encode("admin"));
         create(adminUser);
+        User librarianUser = new User("BBBBAAAA","Librarian","Librarian","librarian@digibooky.com",address, Role.LIBRARIAN, bCryptPasswordEncoder.encode("librarian"));
+        create(librarianUser);
 
         List<User> listOfUsers = List.of(
                 new User("11111111", "One", "OneLast", "one@digibooky.com", new Address("Stockholm"), Role.MEMBER, "passwordOne"),
