@@ -2,6 +2,7 @@ package com.switchfully.digibooky.repository;
 
 import com.switchfully.digibooky.domain.Address;
 import com.switchfully.digibooky.domain.Book;
+import com.switchfully.digibooky.exception.BookNotFoundException;
 import com.switchfully.digibooky.domain.Role;
 import com.switchfully.digibooky.domain.User;
 import com.switchfully.digibooky.exception.IsbnNumberExistsException;
@@ -28,6 +29,13 @@ public class BookRepository {
 
     public Book findSingleBookById(String id) {
         return books.get(id);
+    }
+
+    public Book findSingleBookByIsbnNumber(String isbnNumberToFind) throws BookNotFoundException{
+        return books.values().stream()
+                .filter(book -> isbnNumberToFind.equals(book.getIsbnNumber()))
+                .findFirst()
+                .orElseThrow(BookNotFoundException::new);
     }
 
     public boolean isBookIdPresent(String id) {

@@ -33,7 +33,7 @@ public class BookService {
 
     public BookDto findSingleBookById(String id) {
         if (!bookRepository.isBookIdPresent(id)) {
-            throw new BookNotFoundException("Book Not Found");
+            throw new BookNotFoundException();
         }
         return bookMapper.mapBookToBookDto(bookRepository.findSingleBookById(id));
 
