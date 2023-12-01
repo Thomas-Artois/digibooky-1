@@ -8,6 +8,7 @@ public class Book {
     private String title;
     private String author;
     private String summary;
+    private boolean deleted = false;
 
     public Book(String isbnNumber, String title, String author, String summary) {
         this(UUID.randomUUID().toString(), isbnNumber, title, author, summary);
@@ -19,6 +20,14 @@ public class Book {
         this.title = title;
         this.author = author;
         this.summary = summary;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     public String getId() {

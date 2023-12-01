@@ -87,4 +87,8 @@ public class BookService {
         Book book = bookRepository.update(bookMapper.mapUpdateBookDtoToBook(bookDto, updateBookDto));
         return bookMapper.mapBookToBookDto(book);
     }
+
+    public void deleteBook(BookDto bookDto){
+        bookRepository.delete(bookDto.getId());
+    }
 }

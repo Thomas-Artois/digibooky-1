@@ -56,4 +56,8 @@ public class BookRepository {
         books.put(book.getId(), book);
         return book;
     }
+
+    public void delete(String id) {
+        findSingleBookById(id).setDeleted(true);
+    }
 }
