@@ -1,14 +1,17 @@
 package com.switchfully.digibooky.service;
 
+import com.switchfully.digibooky.domain.Loan;
 import com.switchfully.digibooky.dto.LoanDto;
 import com.switchfully.digibooky.exception.BookNotFoundException;
 import com.switchfully.digibooky.exception.DuplicateIsbnNumberException;
 import com.switchfully.digibooky.exception.LoanAlreadyExistsException;
+import com.switchfully.digibooky.exception.LoanDoesNotExistException;
 import com.switchfully.digibooky.mapper.LoansMapper;
 import com.switchfully.digibooky.repository.BookRepository;
 import com.switchfully.digibooky.repository.LoansRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,8 +36,13 @@ public class LoansService {
     }
 
     public String returnBook(String loanId) {
-        // TODO: add exception handling
-        return loansRepository.returnBook(loanId);
+        String message = "Book was successfully returned";
+        Loan loan = loansRepository.returnBook(loanId);
+
+        if (loan.getDueDate().isBefore(LocalDate.now())) {
+            message += " and it was overdue";
+        }
+        return message;
     }
 
     public void checkIfIsbnNumberExists(String isbnNumber) throws DuplicateIsbnNumberException {
@@ -51,5 +59,9 @@ public class LoansService {
         return loansRepository.getAllLoansByMember(id).stream()
                 .map(loansMapper::mapLoanToLoanDto)
                 .collect(Collectors.toList());
+    }
+
+    public LoanDto getSingleLoanByIsbnNumber(String isbnNumber) {
+        return loansMapper.mapLoanToLoanDto(loansRepository.findSingleLoanByIsbnNumber(isbnNumber));
     }
 }
