@@ -111,6 +111,7 @@ public class LibrarianControllerIntegrationTest {
 
         //GIVEN
         String id = "ab6b699e-21e3-4624-b236-9f8d9f6a22cf";
+
         //WHEN
         RestAssured
                 .given()
@@ -122,6 +123,7 @@ public class LibrarianControllerIntegrationTest {
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.NO_CONTENT.value());
+
         //THEN
         RestAssured
                 .given()
@@ -138,6 +140,7 @@ public class LibrarianControllerIntegrationTest {
 
         //GIVEN
         String id = "0eb21d01-4016-4d29-80be-1f0bbd4becc5";
+
         //WHEN
         RestAssured
                 .given()
@@ -149,6 +152,7 @@ public class LibrarianControllerIntegrationTest {
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.NO_CONTENT.value());
+
         //THEN
         RestAssured
                 .given()
@@ -167,22 +171,22 @@ public class LibrarianControllerIntegrationTest {
         String id = "8ec158fc-9b1b-46af-9e3f-5c99ee9752a9";
         //WHEN
         List<LoanDto> listOfLoanDto =
+            RestAssured
+                    .given()
+                    .header("email", "librarian@digibooky.com")
+                    .header("password", "librarian")
+                    .when()
+                    .port(port)
+                    .get("/loans?memberId=" + id)
+                    .then()
+                    .assertThat()
+                    .statusCode(HttpStatus.OK.value())
+                    .extract()
+                    .body()
+                    .jsonPath()
+                    .getList(".", LoanDto.class);
 
-        RestAssured
-                .given()
-                .header("email", "librarian@digibooky.com")
-                .header("password", "librarian")
-                .when()
-                .port(port)
-                .get("/loans?memberId=" + id)
-                .then()
-                .assertThat()
-                .statusCode(HttpStatus.OK.value())
-                .extract()
-                .body()
-                .jsonPath()
-                .getList(".", LoanDto.class);
-    //THEN
+        //THEN
         assertThat(listOfLoanDto).hasSize(2);
         assertThat(listOfLoanDto).allSatisfy(loanDto -> assertThat(loanDto).isInstanceOf(LoanDto.class));
 
