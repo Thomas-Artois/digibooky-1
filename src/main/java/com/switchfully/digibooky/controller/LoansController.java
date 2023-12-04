@@ -50,5 +50,4 @@ public class LoansController {
     }
 
     //TODO add user handler
-
 }
