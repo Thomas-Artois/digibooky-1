@@ -22,7 +22,6 @@ public class LoansService {
     }
 
     public LoanDto lendBook(String memberId, String isbnNumber) throws BookNotFoundException {
-        System.out.println("loansService: " + isbnNumber);
         checkIfIsbnNumberExists(isbnNumber);
         checkIfBookIsLentOutAlready(isbnNumber);
 
@@ -31,12 +30,10 @@ public class LoansService {
     }
 
     public void checkIfIsbnNumberExists(String isbnNumber) throws DuplicateIsbnNumberException {
-        System.out.println("loansService - check if isbn exists: " + isbnNumber);
         bookRepository.checkIfIsbnNumberExists(isbnNumber);
     }
 
     public void checkIfBookIsLentOutAlready(String isbnNumber) throws LoanAlreadyExistsException {
-        System.out.println("loansService - check if book is lent: " + isbnNumber);
         if (loansRepository.isIsbnNumberPresent(isbnNumber)){
             throw new LoanAlreadyExistsException();
         }
