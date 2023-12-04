@@ -15,14 +15,12 @@ public class LoansRepository {
 
 
     public Loan lendBook(String memberId, String isbnNumber) {
-        System.out.println("loansRepository: " + isbnNumber);
         Loan loan = new Loan(memberId, isbnNumber);
         lentBooks.put(isbnNumber, loan);
         return loan;
     }
 
     public boolean isIsbnNumberPresent(String isbnNumber) throws LoanAlreadyExistsException {
-        System.out.println("loansRepo - check isbn present: " + isbnNumber);
         return (lentBooks.get(isbnNumber) != null);
     }
 

@@ -28,7 +28,6 @@ public class LoansController {
     @PostMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public LoanDto lendBook(@RequestHeader String email, @RequestHeader String password, @RequestParam String isbnNumber) {
-        System.out.println("loansController: " + isbnNumber);
         userService.checkIfUserIsMember(email, password);
         User user = userService.getUserByEmail(email);
         return loansService.lendBook(user.getId(),isbnNumber);

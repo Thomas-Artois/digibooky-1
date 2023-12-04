@@ -29,7 +29,6 @@ public class BookRepository {
     }
 
     public Book findSingleBookByIsbnNumber(String isbnNumberToFind) throws BookNotFoundException{
-        System.out.println("bookRepository: " + isbnNumberToFind);
         return books.values().stream()
                 .filter(book -> isbnNumberToFind.equals(book.getIsbnNumber()))
                 .findFirst()
@@ -41,14 +40,12 @@ public class BookRepository {
     }
 
     public void checkIfIsbnNumberIsDuplicate(String isbnNumber) throws DuplicateIsbnNumberException {
-        System.out.println("Check isbn number is duplicate" + isbnNumber);
         if (books.values().stream().anyMatch(book ->  book.getIsbnNumber().equals(isbnNumber))) {
             throw new DuplicateIsbnNumberException();
         }
     }
 
     public void checkIfIsbnNumberExists(String isbnNumber) throws IsbnNumberNotFoundException {
-        System.out.println("Check isbn number exists" + isbnNumber);
         if (books.values().stream().noneMatch(book ->  book.getIsbnNumber().equals(isbnNumber))) {
             throw new IsbnNumberNotFoundException();
         }
