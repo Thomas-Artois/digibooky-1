@@ -14,6 +14,9 @@ import java.util.Map;
 public class LoansRepository {
     private final Map<String, Loan> lentBooks = new HashMap<>();
 
+    public Loan findSingleLoanByIsbnNumber(String isbnNumber) {
+        return lentBooks.get(isbnNumber);
+    }
 
     public Loan lendBook(String memberId, String isbnNumber) {
         Loan loan = new Loan(memberId, isbnNumber);
