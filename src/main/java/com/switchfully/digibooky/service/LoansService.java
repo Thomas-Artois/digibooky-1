@@ -9,6 +9,9 @@ import com.switchfully.digibooky.repository.BookRepository;
 import com.switchfully.digibooky.repository.LoansRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class LoansService {
     private LoansRepository loansRepository;
@@ -43,4 +46,9 @@ public class LoansService {
         }
     }
 
+    public List<LoanDto> getAllLoans(String id) {
+        return loansRepository.getAllLoansByMember(id).stream()
+                .map(loan -> loansMapper.mapLoanToLoanDto(loan))
+                .collect(Collectors.toList());
+    }
 }

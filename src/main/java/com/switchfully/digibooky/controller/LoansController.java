@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/loans")
@@ -39,5 +40,12 @@ public class LoansController {
         userService.checkIfUserIsMember(email, password);
         User user = userService.getUserByEmail(email);
         return null;
+    }
+    @GetMapping(produces = "application/json", path = "/members/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<LoanDto> getAllLoans(@RequestHeader String email, @RequestHeader String password, @RequestHeader String id){
+        userService.checkIfUserIsLibrarian(email, password);
+        userService.checkIfUserExists(id);
+        return  loansService.getAllLoans(id);
     }
 }
