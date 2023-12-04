@@ -47,10 +47,6 @@ public class LoansRepository {
         return loan;
     }
 
-    public String returnBook() {
-        return null;
-    }
-
     public Loan returnBook(String loanId) throws LoanDoesNotExistException, BookNotFoundException {
         Loan loan = findSingleLoanByLoanId(loanId);
 
