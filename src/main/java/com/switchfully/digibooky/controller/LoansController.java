@@ -33,5 +33,11 @@ public class LoansController {
         return loansService.lendBook(user.getId(),isbnNumber);
     }
 
-    //TODO add user handler
+    @PostMapping(produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public String returnBook(@RequestHeader String email, @RequestHeader String password, @RequestParam String loanId) {
+        userService.checkIfUserIsMember(email, password);
+        User user = userService.getUserByEmail(email);
+        return null;
+    }
 }

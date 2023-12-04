@@ -29,6 +29,10 @@ public class LoansService {
         return loansMapper.mapLoanToLoanDto(loansRepository.lendBook(memberId,isbnNumber));
     }
 
+    public String returnBook() {
+        return null;
+    }
+
     public void checkIfIsbnNumberExists(String isbnNumber) throws DuplicateIsbnNumberException {
         bookRepository.checkIfIsbnNumberExists(isbnNumber);
     }

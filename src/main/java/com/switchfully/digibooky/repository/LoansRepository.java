@@ -20,6 +20,10 @@ public class LoansRepository {
         return loan;
     }
 
+    public String returnBook() {
+        return null;
+    }
+
     public boolean isIsbnNumberPresent(String isbnNumber) throws LoanAlreadyExistsException {
         return (lentBooks.get(isbnNumber) != null);
     }
