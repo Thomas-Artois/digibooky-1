@@ -174,7 +174,7 @@ public class LibrarianControllerIntegrationTest {
                 .header("password", "librarian")
                 .when()
                 .port(port)
-                .get("/loans/members/" + id)
+                .get("/loans?memberId=" + id)
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
