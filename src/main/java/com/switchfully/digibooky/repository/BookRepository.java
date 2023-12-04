@@ -12,10 +12,12 @@ import java.util.*;
 public class BookRepository {
     private final Map<String, Book> books = new HashMap<>();
 
+
     public BookRepository() {
         List<Book> listOfBooks = List.of(
                 new Book("ab6b699e-21e3-4624-b236-9f8d9f6a22cf","9785744653941", "Fly", "FFFF", "JJJJ"),
-               new Book("488f2c99-6cad-405c-8ac3-99ab96575f9d","9784578421634","Heaven", "AAA", "SADD dFF")
+               new Book("488f2c99-6cad-405c-8ac3-99ab96575f9d","9784578421634","Heaven", "AAA", "SADD dFF"),
+                new Book("0eb21d01-4016-4d29-80be-1f0bbd4becc5","9781063599397","Beach", "AAA", "SADD dFF", true)
         );
         listOfBooks.forEach(this::create);
     }
@@ -36,6 +38,7 @@ public class BookRepository {
     }
 
     public boolean isBookIdPresent(String id) {
+
         return books.containsKey(id);
     }
 
@@ -59,5 +62,13 @@ public class BookRepository {
     public Book update(Book book) {
         books.put(book.getId(), book);
         return book;
+    }
+
+    public void delete(String id) {
+        books.get(id).setDeleted(true);
+    }
+
+    public void restore(String id) {
+        books.get(id).setDeleted(false);
     }
 }

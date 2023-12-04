@@ -1,42 +1,31 @@
 package com.switchfully.digibooky.controller;
 
 import com.switchfully.digibooky.dto.*;
-import com.switchfully.digibooky.service.BookService;
+import com.switchfully.digibooky.exception.*;
 import com.switchfully.digibooky.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @Validated
-@RequestMapping("/manage-books")
+@RequestMapping("/librarians")
 public class LibrarianController {
-
-    private BookService bookService;
     private UserService userService;
 
-    public LibrarianController(BookService bookService, UserService userService) {
-        this.bookService = bookService;
+    public LibrarianController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public BookDto createBook(@RequestHeader String email, @RequestHeader String password, @Valid @RequestBody CreateBookDto createBookDto) {
-        userService.checkIfUserIsLibrarian(email, password);
-        return bookService.createBook(createBookDto);
+    public UserDto createLibrarian(@RequestHeader String email, @RequestHeader String password, @Valid @RequestBody CreateUserDto createUserDto) {
+        userService.checkIfUserIsAdmin(email, password);
+
+        return userService.createLibrarian(createUserDto);
     }
-
-    @PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    public BookDto updateBook(@RequestHeader String email, @RequestHeader String password,@PathVariable String id, @Valid @RequestBody UpdateBookDto updateBookDto) {
-        userService.checkIfUserIsLibrarian(email, password);
-        BookDto bookDto = bookService.findSingleBookById(id);
-        return bookService.updateBook(bookDto, updateBookDto);
-    }
-
-
-
-
 }

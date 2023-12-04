@@ -35,8 +35,11 @@ public class BookService {
         if (!bookRepository.isBookIdPresent(id)) {
             throw new BookNotFoundException();
         }
+        Book book = bookRepository.findSingleBookById(id);
+        if (book.isDeleted()) {
+            throw new BookNotFoundException();
+        }
         return bookMapper.mapBookToBookDto(bookRepository.findSingleBookById(id));
-
     }
 
     public List<BookDto> searchBooks(String isbnNumber, String title, String author) {
@@ -54,7 +57,6 @@ public class BookService {
         return bookList
                 .map(book -> bookMapper.mapBookToBookDto(book))
                 .collect(Collectors.toList());
-
     }
 
     private Stream<Book> findBooksByIsbn(String isbnNumber, Stream<Book> stream) {
@@ -86,5 +88,20 @@ public class BookService {
     public BookDto updateBook(BookDto bookDto, UpdateBookDto updateBookDto) {
         Book book = bookRepository.update(bookMapper.mapUpdateBookDtoToBook(bookDto, updateBookDto));
         return bookMapper.mapBookToBookDto(book);
+    }
+
+    public void deleteBook(BookDto bookDto) {
+        bookRepository.delete(bookDto.getId());
+    }
+
+    public BookDto findDeletedBookById(String id) {
+        if (!bookRepository.isBookIdPresent(id)) {
+            throw new BookNotFoundException();
+        }
+        return bookMapper.mapBookToBookDto(bookRepository.findSingleBookById(id));
+    }
+
+    public void restoreBook(BookDto bookDto) {
+        bookRepository.restore(bookDto.getId());
     }
 }
