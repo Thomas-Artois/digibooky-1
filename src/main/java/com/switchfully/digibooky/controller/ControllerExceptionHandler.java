@@ -25,8 +25,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         response.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
     }
 
-    @ExceptionHandler(NotALibrarianException.class)
-    private void notAMemberException(NotALibrarianException e, HttpServletResponse response) throws IOException {
+    @ExceptionHandler(NotAMemberException.class)
+    private void notAMemberException(NotAMemberException e, HttpServletResponse response) throws IOException {
         response.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
     }
 
