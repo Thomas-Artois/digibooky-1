@@ -170,7 +170,7 @@ class UserControllerIntegrationTest {
                         .jsonPath()
                         .getList(".", UserDto.class);
 
-
+        //THEN
         assertThat(listOfUserDto).hasSize(3);
         assertThat(listOfUserDto).allSatisfy(userDto -> assertThat(userDto).isInstanceOf(UserDto.class));
     }

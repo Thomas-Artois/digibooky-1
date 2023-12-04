@@ -9,6 +9,8 @@ import com.switchfully.digibooky.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/loans")
 public class LoansController {
@@ -35,5 +37,12 @@ public class LoansController {
     public Message returnBook(@RequestHeader String email, @RequestHeader String password, @RequestParam String loanId) {
         userService.checkIfUserIsMember(email, password);
         return new Message(loansService.returnBook(loanId));
+    }
+    @GetMapping(produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public List<LoanDto> getAllLoans(@RequestHeader String email, @RequestHeader String password, @RequestParam String memberId){
+        userService.checkIfUserIsLibrarian(email, password);
+        userService.checkIfUserExists(memberId);
+        return  loansService.getAllLoans(memberId);
     }
 }
