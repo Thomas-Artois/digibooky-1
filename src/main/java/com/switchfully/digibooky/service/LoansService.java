@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class LoansService {
-    private LoansRepository loansRepository;
-    private LoansMapper loansMapper;
-    private BookRepository bookRepository;
+    private final LoansRepository loansRepository;
+    private final  LoansMapper loansMapper;
+    private final BookRepository bookRepository;
 
     public LoansService(LoansRepository loansRepository, LoansMapper loansMapper, BookRepository bookRepository) {
         this.loansRepository = loansRepository;
@@ -32,8 +32,9 @@ public class LoansService {
         return loansMapper.mapLoanToLoanDto(loansRepository.lendBook(memberId,isbnNumber));
     }
 
-    public String returnBook() {
-        return null;
+    public String returnBook(String loanId) {
+        // TODO: add exception handling
+        return loansRepository.returnBook(loanId);
     }
 
     public void checkIfIsbnNumberExists(String isbnNumber) throws DuplicateIsbnNumberException {
@@ -48,7 +49,7 @@ public class LoansService {
 
     public List<LoanDto> getAllLoans(String id) {
         return loansRepository.getAllLoansByMember(id).stream()
-                .map(loan -> loansMapper.mapLoanToLoanDto(loan))
+                .map(loansMapper::mapLoanToLoanDto)
                 .collect(Collectors.toList());
     }
 }
