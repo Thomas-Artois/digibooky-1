@@ -40,9 +40,9 @@ public class LoansController {
     }
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public List<LoanDto> getAllLoans(@RequestHeader String email, @RequestHeader String password, @RequestParam String memberId){
+    public List<LoanDto> getAllLoans(@RequestHeader String email, @RequestHeader String password, @RequestParam(required = false) String memberId,  @RequestParam(required = false) boolean isOverdue){
         userService.checkIfUserIsLibrarian(email, password);
-        userService.checkIfUserExists(memberId);
-        return  loansService.getAllLoans(memberId);
+        return  loansService.getAllLoans(memberId, isOverdue);
     }
+
 }

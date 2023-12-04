@@ -191,4 +191,28 @@ public class LibrarianControllerIntegrationTest {
         assertThat(listOfLoanDto).allSatisfy(loanDto -> assertThat(loanDto).isInstanceOf(LoanDto.class));
 
     }
+
+    @Test
+    void givenOverdue_whenGetLoans_thenGetListOfOverdueLoans(){
+        //WHEN
+        List<LoanDto> listOfLoanDto =
+                RestAssured
+                        .given()
+                        .header("email", "librarian@digibooky.com")
+                        .header("password", "librarian")
+                        .when()
+                        .port(port)
+                        .get("/loans?isOverdue=true")
+                        .then()
+                        .assertThat()
+                        .statusCode(HttpStatus.OK.value())
+                        .extract()
+                        .body()
+                        .jsonPath()
+                        .getList(".", LoanDto.class);
+        //THEN
+        assertThat(listOfLoanDto).hasSize(1);
+
+    }
 }
+

@@ -8,9 +8,7 @@ import com.switchfully.digibooky.exception.LoanDoesNotExistException;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -22,8 +20,8 @@ public class LoansRepository {
         List<Loan> listOfLoans = List.of(
                 new Loan("8ec158fc-9b1b-46af-9e3f-5c99ee9752a9","9785744653941"),
                 new Loan("8ec158fc-9b1b-46af-9e3f-5c99ee9752a9", "9784578421634"),
-                new Loan("7dcd50bb-98bb-49a0-96ac-e59c3fc7f9a0", "9781063599397")
-
+                new Loan("7dcd50bb-98bb-49a0-96ac-e59c3fc7f9a0", "9781063599397"),
+                new Loan("7dcd50bb-98bb-49a0-96ac-e59c3fc7f9a0", "9780939340972", LocalDate.EPOCH)
         );
         listOfLoans.forEach(this::create);
     }
@@ -73,4 +71,9 @@ public class LoansRepository {
                 .filter(loan -> loan.getMemberId().equals(id))
                 .collect(Collectors.toList());
     }
+
+    public Collection<Loan> findAllLoans() {
+        return lentBooks.values();
+    }
+
 }

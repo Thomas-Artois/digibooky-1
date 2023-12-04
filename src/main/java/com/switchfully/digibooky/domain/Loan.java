@@ -12,11 +12,15 @@ public class Loan {
 
     private static final int DEFAULT_LOAN_DURATION_IN_WEEKS = 3;
 
-    public Loan(String memberId, String isbnNumber) {
+    public Loan(String memberId, String isbnNumber, LocalDate dueDate) {
+        loanId =  UUID.randomUUID().toString();
         this.memberId = memberId;
         this.isbnNumber = isbnNumber;
-        loanId = UUID.randomUUID().toString();
-        dueDate = LocalDate.now().plusWeeks(DEFAULT_LOAN_DURATION_IN_WEEKS);
+        this.dueDate = dueDate;
+    }
+
+    public Loan(String memberId, String isbnNumber) {
+        this(memberId, isbnNumber, LocalDate.now().plusWeeks(DEFAULT_LOAN_DURATION_IN_WEEKS));
     }
 
     public String getIsbnNumber() {
