@@ -2,6 +2,7 @@ package com.switchfully.digibooky;
 
 import com.switchfully.digibooky.dto.BookDto;
 import com.switchfully.digibooky.dto.CreateBookDto;
+import com.switchfully.digibooky.dto.LoanDto;
 import com.switchfully.digibooky.dto.UpdateBookDto;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
+
+import java.util.List;
 
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -108,6 +111,7 @@ public class LibrarianControllerIntegrationTest {
 
         //GIVEN
         String id = "ab6b699e-21e3-4624-b236-9f8d9f6a22cf";
+
         //WHEN
         RestAssured
                 .given()
@@ -119,6 +123,7 @@ public class LibrarianControllerIntegrationTest {
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.NO_CONTENT.value());
+
         //THEN
         RestAssured
                 .given()
@@ -135,6 +140,7 @@ public class LibrarianControllerIntegrationTest {
 
         //GIVEN
         String id = "0eb21d01-4016-4d29-80be-1f0bbd4becc5";
+
         //WHEN
         RestAssured
                 .given()
@@ -146,6 +152,7 @@ public class LibrarianControllerIntegrationTest {
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.NO_CONTENT.value());
+
         //THEN
         RestAssured
                 .given()
@@ -155,5 +162,33 @@ public class LibrarianControllerIntegrationTest {
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void givenMemberId_whenGetAllLoans_thenGetListOfLoans(){
+
+        //GIVEN
+        String id = "8ec158fc-9b1b-46af-9e3f-5c99ee9752a9";
+        //WHEN
+        List<LoanDto> listOfLoanDto =
+            RestAssured
+                    .given()
+                    .header("email", "librarian@digibooky.com")
+                    .header("password", "librarian")
+                    .when()
+                    .port(port)
+                    .get("/loans?memberId=" + id)
+                    .then()
+                    .assertThat()
+                    .statusCode(HttpStatus.OK.value())
+                    .extract()
+                    .body()
+                    .jsonPath()
+                    .getList(".", LoanDto.class);
+
+        //THEN
+        assertThat(listOfLoanDto).hasSize(2);
+        assertThat(listOfLoanDto).allSatisfy(loanDto -> assertThat(loanDto).isInstanceOf(LoanDto.class));
+
     }
 }
