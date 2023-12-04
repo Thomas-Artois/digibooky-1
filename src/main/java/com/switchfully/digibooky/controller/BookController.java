@@ -84,19 +84,4 @@ public class BookController {
 
         return bookService.searchBooks(isbnNumber, title, author);
     }
-
-    @ExceptionHandler(PasswordIsIncorrectException.class)
-    private void passwordIsIncorrectException(PasswordIsIncorrectException e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
-    }
-
-    @ExceptionHandler(UserNotFoundException.class)
-    private void userNotFoundException(UserNotFoundException e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_NOT_FOUND, e.getMessage());
-    }
-
-    @ExceptionHandler(NotALibrarianException.class)
-    private void notALibrarianException(NotALibrarianException e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
-    }
 }

@@ -34,20 +34,5 @@ public class LoansController {
         return loansService.lendBook(user.getId(),isbnNumber);
     }
 
-    @ExceptionHandler(BookNotFoundException.class)
-    private void bookNotFoundException(BookNotFoundException e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_NOT_FOUND, e.getMessage());
-    }
-
-    @ExceptionHandler(LoanAlreadyExistsException.class)
-    private void loanAlreadyExistsException(LoanAlreadyExistsException e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
-    }
-
-    @ExceptionHandler(NotAMemberException.class)
-    private void notAMemberException(NotAMemberException e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
-    }
-
     //TODO add user handler
 }

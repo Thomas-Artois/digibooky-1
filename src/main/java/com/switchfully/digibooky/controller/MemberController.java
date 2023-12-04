@@ -36,29 +36,4 @@ public class MemberController {
 
         return userService.getAllMembers();
     }
-
-    @ExceptionHandler(EmailExistsException.class)
-    private void emailExistsException(EmailExistsException e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
-    }
-
-    @ExceptionHandler(SocialSecurityNumberExistsException.class)
-    private void socialSecurityNumberExistsException(SocialSecurityNumberExistsException e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
-    }
-
-    @ExceptionHandler(PasswordIsIncorrectException.class)
-    private void passwordIsIncorrectException(PasswordIsIncorrectException e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
-    }
-
-    @ExceptionHandler(UserNotFoundException.class)
-    private void userNotFoundException(UserNotFoundException e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_NOT_FOUND, e.getMessage());
-    }
-
-    @ExceptionHandler(NotAnAdminException.class)
-    private void notAnAdminException(NotAnAdminException e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
-    }
 }

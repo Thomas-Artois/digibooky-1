@@ -31,19 +31,4 @@ public class AdminController {
 
         return userService.createAdmin(createUserDto);
     }
-
-    @ExceptionHandler(PasswordIsIncorrectException.class)
-    private void passwordIsIncorrectException(PasswordIsIncorrectException e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
-    }
-
-    @ExceptionHandler(UserNotFoundException.class)
-    private void userNotFoundException(UserNotFoundException e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_NOT_FOUND, e.getMessage());
-    }
-
-    @ExceptionHandler(NotAnAdminException.class)
-    private void notAnAdminException(NotAnAdminException e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
-    }
 }
