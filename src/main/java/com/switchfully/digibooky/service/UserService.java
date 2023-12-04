@@ -69,8 +69,7 @@ public class UserService {
     }
 
     public void checkIfUserExists(String userId) throws UserNotFoundException {
-        User user = userRepository.getUserById(userId);
-        checkIfPasswordIsCorrect(user, user.getPassword());
+        userRepository.getUserById(userId);
     }
 
     private UserDto createUser(CreateUserDto createUserDto, Role role) throws EmailExistsException, SocialSecurityNumberExistsException {

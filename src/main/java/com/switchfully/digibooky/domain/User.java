@@ -18,7 +18,8 @@ public class User {
         this(UUID.randomUUID().toString(), socialSecurityNumber, firstName, lastName, email, address, role, password);
     }
 
-    private User(String id, String socialSecurityNumber, String firstName, String lastName, String email, Address address, Role role, String password) {
+
+    public User(String id, String socialSecurityNumber, String firstName, String lastName, String email, Address address, Role role, String password) {
         this.id = id;
         this.socialSecurityNumber = socialSecurityNumber;
         this.firstName = firstName;
