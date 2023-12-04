@@ -17,6 +17,9 @@ import java.util.stream.Collectors;
 public class LoansRepository {
     private final Map<String, Loan> lentBooks = new HashMap<>();
 
+    public Loan findSingleLoanByIsbnNumber(String isbnNumber) {
+        return lentBooks.get(isbnNumber);
+    }
 
     public LoansRepository() {
         List<Loan> listOfLoans = List.of(
