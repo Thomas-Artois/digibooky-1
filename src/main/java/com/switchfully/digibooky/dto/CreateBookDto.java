@@ -1,7 +1,5 @@
 package com.switchfully.digibooky.dto;
 
-import com.switchfully.digibooky.domain.IsbnValidation;
-import com.switchfully.digibooky.exception.NotAValidIsbnException;
 import jakarta.validation.constraints.NotEmpty;
 
 public class CreateBookDto {
@@ -15,9 +13,7 @@ public class CreateBookDto {
     private final String summary;
 
     public CreateBookDto(String isbnNumber, String title, String author, String summary) {
-        if (!IsbnValidation.isIsbn13(isbnNumber)) {
-            throw new NotAValidIsbnException();
-        }
+
         this.isbnNumber = isbnNumber;
         this.title = title;
         this.author = author;

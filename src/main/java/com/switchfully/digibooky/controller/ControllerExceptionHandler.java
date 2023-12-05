@@ -30,8 +30,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         response.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
     }
 
-
-
     @ExceptionHandler(EmailExistsException.class)
     private void emailExistsException(EmailExistsException e, HttpServletResponse response) throws IOException {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
@@ -42,9 +40,13 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
     }
 
-
     @ExceptionHandler(PasswordIsIncorrectException.class)
     private void passwordIsIncorrectException(PasswordIsIncorrectException e, HttpServletResponse response) throws IOException {
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(NotAValidIsbnException.class)
+    private void notAValidIsbnException(NotAValidIsbnException e, HttpServletResponse response) throws IOException {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
     }
 }
