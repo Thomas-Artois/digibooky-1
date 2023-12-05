@@ -3,27 +3,21 @@ package com.switchfully.digibooky;
 import com.switchfully.digibooky.controller.LoansController;
 import com.switchfully.digibooky.domain.*;
 import com.switchfully.digibooky.dto.LoanDto;
-import com.switchfully.digibooky.mapper.LoansMapper;
-import com.switchfully.digibooky.mapper.UserMapper;
-import com.switchfully.digibooky.repository.BookRepository;
 import com.switchfully.digibooky.repository.LoansRepository;
 import com.switchfully.digibooky.repository.UserRepository;
-import com.switchfully.digibooky.service.LoansService;
-import com.switchfully.digibooky.service.UserService;
-
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
+
+import java.util.List;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -34,25 +28,10 @@ public class LoanControllerTest {
     private LoansRepository loansRepository;
 
     @Autowired
-    private LoansService loansService;
-
-//    @Autowired
-//    private UserService userService;
-
-    @Autowired
     private LoansController loansController;
 
     @Autowired
     private UserRepository userRepository;
-
-//    UserRepository userRepository = new UserRepository();
-//    LoansRepository loansRepository = new LoansRepository();
-//    BookRepository bookRepository = new BookRepository();
-//    LoansMapper loansMapper = new LoansMapper();
-//    UserMapper userMapper = new UserMapper();
-//    LoansService loansService = new LoansService(loansRepository, loansMapper, bookRepository );
-//    UserService userService = new UserService(userMapper, userRepository);
-//    LoansController loansController = new LoansController(loansService, userService);
 
     @LocalServerPort
     private int port;
@@ -91,9 +70,6 @@ public class LoanControllerTest {
         loansController.lendBook("one@digibooky.com", "passwordOne", "9781573226127");
         String loanId = loansRepository.findSingleLoanByIsbnNumber("9781573226127").getLoanId();
 
-        System.out.println(loansService.getAllLoans("8ec158fc-9b1b-46af-9e3f-5c99ee9752a9"));
-        System.out.println(loansService.getSingleLoanByIsbnNumber("9781573226127"));
-
         //WHEN
         Message message =
                 RestAssured
@@ -104,7 +80,7 @@ public class LoanControllerTest {
                         .header("password", "passwordOne")
                         .when()
                         .port(port)
-                        .post("/loans/returns?loanId="+loanId)
+                        .post("/loans/returns?loanId=" + loanId)
                         .then()
                         .assertThat()
                         .statusCode(HttpStatus.OK.value())
@@ -115,6 +91,33 @@ public class LoanControllerTest {
         assertThat(message.toString()).isEqualTo("Book was successfully returned");
     }
 
+    @Test
+    void givenLoansControllerWithLoans_whenLibrarianGetsAllLoansForMember_thenReturnAllLoansForThisMember() {
+        //GIVEN
+        loansController.getAllLoans("librarian@digibooky.com", "librarian", userRepository.getUserByEmail("three@digibooky.com").getId(), false);
+        String memberId = userRepository.getUserByEmail("three@digibooky.com").getId();
 
+        //WHEN
+        List<LoanDto> listOfLoans =
+                RestAssured
+                        .given()
+                        .accept(JSON)
+                        .contentType(JSON)
+                        .header("email", "librarian@digibooky.com")
+                        .header("password", "librarian")
+                        .when()
+                        .port(port)
+                        .get("/loans?memberId=" + memberId)
+                        .then()
+                        .assertThat()
+                        .statusCode(HttpStatus.OK.value())
+                        .extract()
+                        .body()
+                        .jsonPath()
+                        .getList(".", LoanDto.class);
 
+        assertThat(listOfLoans).allSatisfy(loanDto -> assertThat(loanDto).isInstanceOf(LoanDto.class));
+        assertThat(listOfLoans).hasSize(2);
+
+    }
 }
