@@ -35,7 +35,7 @@ class BookMapperTest {
     }
 
     @Test
-    void givenCreateBookDto_whenmapCreateBookDtoToBook_thenGetBook() {
+    void givenCreateBookDto_whenMapCreateBookDtoToBook_thenGetBook() {
         // GIVEN
         String isbnNumber = "9781234567897";
         String title = "Title";
@@ -56,7 +56,7 @@ class BookMapperTest {
     }
 
     @Test
-    void givenUpdateBookDto_whenmapUpdateBookDtoToBook_thenGetBook() {
+    void givenUpdateBookDto_whenMapUpdateBookDtoToBook_thenGetBook() {
         // GIVEN
         String id = "2079eed5-a2ca-4375-8f41-f677de957a91";
         String isbnNumber = "9781234567897";
