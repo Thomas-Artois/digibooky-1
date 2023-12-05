@@ -50,10 +50,7 @@ public class LoansRepository {
 
     public Loan returnBook(String loanId) throws LoanDoesNotExistException, BookNotFoundException {
         Loan loan = findSingleLoanByLoanId(loanId);
-
-
         lentBooks.entrySet().removeIf(map -> map.getValue().getLoanId().equals(loanId));
-
         return loan;
     }
 
@@ -70,5 +67,4 @@ public class LoansRepository {
     public Collection<Loan> findAllLoans() {
         return lentBooks.values();
     }
-
 }

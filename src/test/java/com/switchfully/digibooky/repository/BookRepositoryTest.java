@@ -1,4 +1,4 @@
-package com.switchfully.digibooky;
+package com.switchfully.digibooky.repository;
 
 import com.switchfully.digibooky.domain.Book;
 import com.switchfully.digibooky.exception.BookNotFoundException;
@@ -23,7 +23,7 @@ public class BookRepositoryTest {
     @Test
     void givenBookRepository_whenFindAllBooks_thenGetAllBooks() {
         Collection<Book> books = bookRepository.findAllBooks();
-        assertEquals(4, books.size());
+        assertEquals(5, books.size());
     }
 
     @Test
