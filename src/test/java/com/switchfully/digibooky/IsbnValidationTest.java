@@ -3,8 +3,6 @@ package com.switchfully.digibooky;
 import com.switchfully.digibooky.domain.IsbnValidation;
 import org.junit.jupiter.api.Test;
 
-import java.util.stream.Stream;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class IsbnValidationTest {
@@ -12,21 +10,24 @@ public class IsbnValidationTest {
     void givenValidIsbn_ThenReturnTrue(){
         //given
         String isbnNumber = "9780596528126";
+        String isbnNumberWithHyphens = "978-0-306-40615-7";
 
         //when
         boolean actual = IsbnValidation.isIsbn13(isbnNumber);
+        boolean actualWithHyphens = IsbnValidation.isIsbn13(isbnNumberWithHyphens);
 
         //then
         assertThat(actual).isTrue();
+        assertThat(actualWithHyphens).isTrue();
     }
 
     @Test
     void givenInvalidIsbn_ThenReturnFalse(){
         //given
-        String isbnNumber = "8780596528126";
+        String notAnIsbnNumber = "8780596528126";
 
         //when
-        boolean actual = IsbnValidation.isIsbn13(isbnNumber);
+        boolean actual = IsbnValidation.isIsbn13(notAnIsbnNumber);
 
         //then
         assertThat(actual).isFalse();

@@ -20,6 +20,8 @@ public class BookRepository {
                new Book("488f2c99-6cad-405c-8ac3-99ab96575f9d","9784578421634","Heaven", "AAA", "SADD dFF"),
                 new Book("0eb21d01-4016-4d29-80be-1f0bbd4becc5","9781063599397","Beach", "AAA", "SADD dFF", true),
                 new Book("30921cba-4433-42d3-bc52-a7ebcfd8db3d", "9780939340972", "Ocean", "BBB","Some text")
+               new Book("38274345-d166-4107-af9a-e0005134d682","9781573226127","Lord of the flies", "William Golding", "Chaos on an island"),
+                new Book("0eb21d01-4016-4d29-80be-1f0bbd4becc5","9781063599397","Beach", "AAA", "SADD dFF", true)
         );
         listOfBooks.forEach(this::create);
     }

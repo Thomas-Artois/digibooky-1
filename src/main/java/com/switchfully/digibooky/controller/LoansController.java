@@ -38,6 +38,7 @@ public class LoansController {
         userService.checkIfUserIsMember(email, password);
         return new Message(loansService.returnBook(loanId));
     }
+
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public List<LoanDto> getAllLoans(@RequestHeader String email, @RequestHeader String password, @RequestParam(required = false) String memberId,  @RequestParam(required = false) boolean isOverdue){
