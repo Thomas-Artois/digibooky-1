@@ -1,11 +1,13 @@
 package com.switchfully.digibooky.service;
 
 import com.switchfully.digibooky.domain.Book;
+import com.switchfully.digibooky.domain.IsbnValidation;
 import com.switchfully.digibooky.dto.BookDto;
 import com.switchfully.digibooky.dto.CreateBookDto;
 import com.switchfully.digibooky.dto.UpdateBookDto;
 import com.switchfully.digibooky.exception.BookNotFoundException;
 import com.switchfully.digibooky.exception.DuplicateIsbnNumberException;
+import com.switchfully.digibooky.exception.NotAValidIsbnException;
 import com.switchfully.digibooky.mapper.BookMapper;
 import com.switchfully.digibooky.repository.BookRepository;
 import org.springframework.stereotype.Service;
@@ -77,7 +79,11 @@ public class BookService {
         );
     }
 
-    public BookDto createBook(CreateBookDto createBookDto) throws DuplicateIsbnNumberException {
+    public BookDto createBook(CreateBookDto createBookDto) throws DuplicateIsbnNumberException, NotAValidIsbnException {
+        if (!IsbnValidation.isIsbn13(createBookDto.getIsbnNumber())) {
+            throw new NotAValidIsbnException();
+        }
+
         bookRepository.checkIfIsbnNumberIsDuplicate(createBookDto.getIsbnNumber());
 
         Book book = bookRepository.create(bookMapper.mapCreateBookDtoToBook(createBookDto));
