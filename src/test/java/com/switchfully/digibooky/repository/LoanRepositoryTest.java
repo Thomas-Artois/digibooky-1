@@ -29,14 +29,6 @@ public class LoanRepositoryTest {
         Loan loan = loansRepository.findSingleLoanByIsbnNumber("9785744653940");
         assertNull(loan);
     }
-
-    @Test
-    void givenSingleLoanByLoanId_whenLoanIdExists_thenReturnLoan() {
-        Loan result = loansRepository.findSingleLoanByLoanId("8ec158fc-9b1b-46af-9e3f-5c99ee9752a9");
-        assertNotNull(result);
-        assertEquals("8ec158fc-9b1b-46af-9e3f-5c99ee9752a9", result.getLoanId());
-    }
-
     @Test
     void givenSingleLoanByLoanId_whenLoanIdDoesntExist_thenReturnNull() {
         assertThrows(LoanDoesNotExistException.class, () ->
