@@ -29,4 +29,14 @@ public class LoanDto {
     public String getLoanId() {
         return loanId;
     }
+
+    @Override
+    public String toString() {
+        return "LoanDto{" +
+                "memberId='" + memberId + '\'' +
+                ", isbnNumber='" + isbnNumber + '\'' +
+                ", loanId='" + loanId + '\'' +
+                ", dueDate=" + dueDate +
+                '}';
+    }
 }
