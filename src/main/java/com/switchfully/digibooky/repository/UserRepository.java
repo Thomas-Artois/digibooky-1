@@ -66,7 +66,6 @@ public class UserRepository {
         return users.get(userId);
     }
 
-
     public List<User> getAllMembers() {
         return users.values().stream().filter(user -> user.getRole().equals(Role.MEMBER)).collect(Collectors.toList());
     }
