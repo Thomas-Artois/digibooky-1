@@ -3,10 +3,12 @@ package com.switchfully.digibooky.service;
 import com.switchfully.digibooky.domain.Book;
 import com.switchfully.digibooky.domain.Loan;
 import com.switchfully.digibooky.dto.BookDto;
+import com.switchfully.digibooky.domain.Loan;
 import com.switchfully.digibooky.dto.LoanDto;
 import com.switchfully.digibooky.exception.BookNotFoundException;
 import com.switchfully.digibooky.exception.DuplicateIsbnNumberException;
 import com.switchfully.digibooky.exception.LoanAlreadyExistsException;
+import com.switchfully.digibooky.exception.LoanDoesNotExistException;
 import com.switchfully.digibooky.mapper.LoansMapper;
 import com.switchfully.digibooky.repository.BookRepository;
 import com.switchfully.digibooky.repository.LoansRepository;
@@ -38,8 +40,13 @@ public class LoansService {
     }
 
     public String returnBook(String loanId) {
-        // TODO: add exception handling
-        return loansRepository.returnBook(loanId);
+        String message = "Book was successfully returned";
+        Loan loan = loansRepository.returnBook(loanId);
+
+        if (loan.getDueDate().isBefore(LocalDate.now())) {
+            message += " and it was overdue";
+        }
+        return message;
     }
 
     public void checkIfIsbnNumberExists(String isbnNumber) throws DuplicateIsbnNumberException {
@@ -74,5 +81,8 @@ public class LoansService {
     private Stream<Loan> findLoansByMemberId(String memberId, Stream<Loan> stream) {
         return stream.filter(
                 loan -> loan.getMemberId().equals(memberId));
+    }
+    public LoanDto getSingleLoanByIsbnNumber(String isbnNumber) {
+        return loansMapper.mapLoanToLoanDto(loansRepository.findSingleLoanByIsbnNumber(isbnNumber));
     }
 }
