@@ -7,11 +7,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LoansMapper {
-
-    public Loan mapCreateLoanDtoToLoan(CreateLoanDto createLoanDto) {
-        return new Loan(createLoanDto.getMemberId(), createLoanDto.getIsbnNumber());
-    }
-
     public LoanDto mapLoanToLoanDto(Loan loan) {
         return new LoanDto(loan.getMemberId(), loan.getIsbnNumber(), loan.getLoanId(), loan.getDueDate());
     }
