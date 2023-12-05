@@ -1,23 +1,38 @@
 package com.switchfully.digibooky.dto;
 
 import com.switchfully.digibooky.domain.Address;
+import com.switchfully.digibooky.domain.Role;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.UUID;
 
 public class UserDto {
-
-    private UUID id;
+    private String id;
+    private String socialSecurityNumber;
     private String firstName;
     private String lastName;
     private String email;
     private Address address;
+    private Role role;
 
-    public UserDto(UUID id, String firstName, String lastName, String email, Address address) {
+    public UserDto(String id, String socialSecurityNumber, String firstName, String lastName, String email, Address address, Role role) {
         this.id = id;
+        this.socialSecurityNumber = socialSecurityNumber;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.address = address;
+        this.role = role;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setSocialSecurityNumber(String socialSecurityNumber) {
+        this.socialSecurityNumber = socialSecurityNumber;
     }
 
     public String getFirstName() {
@@ -58,5 +73,13 @@ public class UserDto {
         this.address = address;
 
         return this;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
