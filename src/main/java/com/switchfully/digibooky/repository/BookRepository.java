@@ -12,7 +12,6 @@ import java.util.*;
 public class BookRepository {
     private final Map<String, Book> books = new HashMap<>();
 
-
     public BookRepository() {
         List<Book> listOfBooks = List.of(
                 new Book("ab6b699e-21e3-4624-b236-9f8d9f6a22cf", "9785744653941", "Fly", "FFFF", "JJJJ"),
@@ -74,6 +73,5 @@ public class BookRepository {
     public void restore(String id) {
         books.get(id).setDeleted(false);
     }
-
 
 }
